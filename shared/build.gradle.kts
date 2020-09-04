@@ -9,12 +9,6 @@ plugins {
 group = "com.ankushg.cocktailapp"
 version = "1.0-SNAPSHOT"
 
-repositories {
-    gradlePluginPortal()
-    google()
-    jcenter()
-    mavenCentral()
-}
 kotlin {
     android()
     ios {
