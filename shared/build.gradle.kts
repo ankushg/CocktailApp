@@ -30,6 +30,12 @@ kotlin {
             dependencies {
                 implementation(Deps.SqlDelight.runtime)
                 implementation(Deps.Koin.core)
+
+                // Ktor
+                implementation(Deps.Ktor.commonCore)
+                implementation(Deps.Ktor.commonJson)
+                implementation(Deps.Ktor.commonLogging)
+                implementation(Deps.Ktor.commonSerialization)
             }
         }
         val commonTest by getting {
@@ -43,6 +49,9 @@ kotlin {
             dependencies {
                 implementation(Deps.Android.material_x)
                 implementation(Deps.SqlDelight.driverAndroid)
+
+                // Ktor
+                implementation(Deps.Ktor.okhttpClient)
             }
         }
         val androidTest by getting {
@@ -54,6 +63,9 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Deps.SqlDelight.driverIos)
+
+                //Ktor
+                implementation(Deps.Ktor.iosClient)
             }
         }
         val iosTest by getting {
