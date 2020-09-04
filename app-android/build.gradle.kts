@@ -14,16 +14,18 @@ repositories {
 }
 dependencies {
     implementation(project(":shared"))
-    implementation("com.google.android.material:material:1.2.0")
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+
+    implementation(Deps.Android.material_x)
+    implementation(Deps.Android.app_compat_x)
+    implementation(Deps.Android.constraintlayout)
 }
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(Deps.Versions.Android.compile_sdk)
     defaultConfig {
         applicationId = "com.ankushg.cocktailapp.app-android"
-        minSdkVersion(24)
-        targetSdkVersion(29)
+        minSdkVersion(Deps.Versions.Android.min_sdk)
+        targetSdkVersion(Deps.Versions.Android.target_sdk)
+
         versionCode = 1
         versionName = "1.0"
     }

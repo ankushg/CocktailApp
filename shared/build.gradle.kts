@@ -24,7 +24,11 @@ kotlin {
         }
     }
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
@@ -33,25 +37,34 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.google.android.material:material:1.2.0")
+                implementation(Deps.Android.material_x)
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation("junit:junit:4.12")
+                implementation(Deps.junit)
             }
         }
-        val iosMain by getting
-        val iosTest by getting
+        val iosMain by getting {
+            dependencies {
+
+            }
+        }
+        val iosTest by getting {
+            dependencies {
+
+            }
+        }
     }
 }
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(Deps.Versions.Android.compile_sdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(29)
+        minSdkVersion(Deps.Versions.Android.min_sdk)
+        targetSdkVersion(Deps.Versions.Android.target_sdk)
+
         versionCode = 1
         versionName = "1.0"
     }
