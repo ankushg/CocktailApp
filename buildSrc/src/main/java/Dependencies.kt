@@ -12,6 +12,7 @@ object Deps {
         internal val junit = "4.13"
         // Third-party Libs
         internal val sqlDelight = "1.4.3"
+        internal val koin = "3.0.1-alpha-2"
     object Android {
         val android_gradle_plugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
         val app_compat_x = "androidx.appcompat:appcompat:1.2.0"
@@ -22,6 +23,10 @@ object Deps {
     }
 
     val junit = "junit:junit:${Versions.junit}"
+    object Koin {
+        val core = "org.koin:koin-core:${Versions.koin}"
+        val test = "org.koin:koin-test:${Versions.koin}"
+    }
     object SqlDelight{
         val gradle = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
         val runtime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
