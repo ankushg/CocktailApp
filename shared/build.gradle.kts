@@ -11,13 +11,20 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
     android()
-    ios {
-        binaries {
-            framework {
-                baseName = "shared"
-            }
-        }
+
+    // TODO: Revert to just ios() when gradle plugin can properly resolve it
+    val onPhone = System.getenv("SDK_NAME")?.startsWith("iphoneos") ?: false
+    if (onPhone) {
+        iosArm64("ios")
+    } else {
+        iosX64("ios")
     }
+//    ios {
+//        binaries.framework
+//            baseName = "shared"
+//        }
+//    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -70,19 +77,21 @@ android {
         }
     }
 }
-val packForXcode by tasks.creating(Sync::class) {
-    group = "build"
-    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
-    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
-    inputs.property("mode", mode)
-    dependsOn(framework.linkTask)
-    val targetDir = File(buildDir, "xcode-frameworks")
-    from({ framework.outputDirectory })
-    into(targetDir)
-}
-tasks.getByName("build").dependsOn(packForXcode)
+
+// TODO: Revert when we switch back to ios()
+//val packForXcode by tasks.creating(Sync::class) {
+//    group = "build"
+//    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+//    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
+//    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
+//    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
+//    inputs.property("mode", mode)
+//    dependsOn(framework.linkTask)
+//    val targetDir = File(buildDir, "xcode-frameworks")
+//    from({ framework.outputDirectory })
+//    into(targetDir)
+//}
+//tasks.getByName("build").dependsOn(packForXcode)
 
 sqldelight {
     database("CocktailsDb") {
