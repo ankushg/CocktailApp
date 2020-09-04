@@ -48,10 +48,10 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Deps.Android.material_x)
-                implementation(Deps.SqlDelight.driverAndroid)
 
                 // Ktor
                 implementation(Deps.Ktor.okhttpClient)
+                implementation(Deps.SqlDelight.androidDriver)
             }
         }
         val androidTest by getting {
@@ -62,7 +62,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-                implementation(Deps.SqlDelight.driverIos)
+                implementation(Deps.SqlDelight.nativeDriver)
 
                 //Ktor
                 implementation(Deps.Ktor.iosClient)
@@ -111,6 +111,6 @@ android {
 
 sqldelight {
     database("CocktailsDb") {
-        packageName = "com.ankushg.cocktailsapp"
+        packageName = "com.ankushg.cocktailapp"
     }
 }

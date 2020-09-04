@@ -1,6 +1,6 @@
 package com.ankushg.cocktailapp.shared.data.di
 
-import com.ankushg.cocktailsapp.CocktailsDb
+import com.ankushg.cocktailapp.CocktailsDb
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import org.koin.core.module.Module
