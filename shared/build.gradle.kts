@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("kotlin-android-extensions")
+    id("com.squareup.sqldelight")
 }
 group = "com.ankushg.cocktailapp"
 version = "1.0-SNAPSHOT"
@@ -26,7 +27,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-
+                implementation(Deps.SqlDelight.runtime)
             }
         }
         val commonTest by getting {
@@ -38,6 +39,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Deps.Android.material_x)
+                implementation(Deps.SqlDelight.driverAndroid)
             }
         }
         val androidTest by getting {
@@ -48,7 +50,7 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-
+                implementation(Deps.SqlDelight.driverIos)
             }
         }
         val iosTest by getting {
@@ -87,3 +89,9 @@ val packForXcode by tasks.creating(Sync::class) {
     into(targetDir)
 }
 tasks.getByName("build").dependsOn(packForXcode)
+
+sqldelight {
+    database("CocktailsDb") {
+        packageName = "com.ankushg.cocktailsapp"
+    }
+}

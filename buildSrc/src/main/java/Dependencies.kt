@@ -10,6 +10,8 @@ object Deps {
         val kotlin = "1.4.0"
         // endregion
         internal val junit = "4.13"
+        // Third-party Libs
+        internal val sqlDelight = "1.4.3"
     object Android {
         val android_gradle_plugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
         val app_compat_x = "androidx.appcompat:appcompat:1.2.0"
@@ -20,4 +22,10 @@ object Deps {
     }
 
     val junit = "junit:junit:${Versions.junit}"
+    object SqlDelight{
+        val gradle = "com.squareup.sqldelight:gradle-plugin:${Versions.sqlDelight}"
+        val runtime = "com.squareup.sqldelight:runtime:${Versions.sqlDelight}"
+        val driverIos = "com.squareup.sqldelight:native-driver:${Versions.sqlDelight}"
+        val driverAndroid = "com.squareup.sqldelight:android-driver:${Versions.sqlDelight}"
+    }
 }

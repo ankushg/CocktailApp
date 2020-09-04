@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", Deps.Versions.kotlin))
         classpath(Deps.Android.android_gradle_plugin)
+        classpath(Deps.SqlDelight.gradle)
     }
 }
 group = "com.ankushg.cocktailapp"
