@@ -28,6 +28,12 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation(Deps.Coroutines.core) {
+                    version {
+                        strictly(Deps.Versions.coroutines)
+                    }
+                }
+
                 implementation(Deps.SqlDelight.runtime)
                 implementation(Deps.Koin.core)
 
@@ -43,6 +49,8 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation(Deps.Koin.test)
+//                TODO: uncomment when less flaky with resolution
+//                implementation(Deps.Coroutines.test)
             }
         }
         val androidMain by getting {
@@ -51,6 +59,7 @@ kotlin {
 
                 // Ktor
                 implementation(Deps.Ktor.okhttpClient)
+                implementation(Deps.Coroutines.android)
                 implementation(Deps.SqlDelight.androidDriver)
             }
         }
