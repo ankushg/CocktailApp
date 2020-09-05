@@ -1,3 +1,7 @@
+import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus;
+import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory;
+import com.ankushg.cocktailapp.shared.data.enums.Glass;
+
 CREATE TABLE cocktail(
    idDrink                     INTEGER  NOT NULL PRIMARY KEY,
    strDrink                    TEXT NOT NULL,
@@ -9,10 +13,10 @@ CREATE TABLE cocktail(
    strDrinkZHHANT              TEXT,
    strTags                     TEXT,
    strVideo                    TEXT,
-   strCategory                 TEXT NOT NULL,
+   strCategory                 TEXT AS DrinkCategory NOT NULL ,
    strIBA                      TEXT,
-   strAlcoholic                TEXT,
-   strGlass                    TEXT ,
+   strAlcoholic                TEXT AS AlcoholStatus,
+   strGlass                    TEXT AS Glass,
    strInstructions             TEXT ,
    strInstructionsES           TEXT,
    strInstructionsDE           TEXT ,
