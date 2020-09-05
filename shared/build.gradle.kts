@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -30,18 +28,16 @@ kotlin {
             dependencies {
                 implementation(Deps.Coroutines.core) {
                     version {
+                        // TODO: remove once native-mt is merged
                         strictly(Deps.Versions.coroutines)
                     }
                 }
 
-                implementation(Deps.SqlDelight.runtime)
                 implementation(Deps.Koin.core)
 
-                // Ktor
-                implementation(Deps.Ktor.commonCore)
-                implementation(Deps.Ktor.commonJson)
-                implementation(Deps.Ktor.commonLogging)
-                implementation(Deps.Ktor.commonSerialization)
+                // SqlDelight
+                implementation(Deps.SqlDelight.runtime)
+                implementation(Deps.SqlDelight.coroutinesExtensions)
             }
         }
         val commonTest by getting {
@@ -56,9 +52,6 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(Deps.Android.material_x)
-
-                // Ktor
-                implementation(Deps.Ktor.okhttpClient)
                 implementation(Deps.Coroutines.android)
                 implementation(Deps.SqlDelight.androidDriver)
             }
@@ -72,9 +65,6 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 implementation(Deps.SqlDelight.nativeDriver)
-
-                //Ktor
-                implementation(Deps.Ktor.iosClient)
             }
         }
         val iosTest by getting {
