@@ -3,67 +3,76 @@ import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory;
 import com.ankushg.cocktailapp.shared.data.enums.Glass;
 
 CREATE TABLE cocktail(
-   idDrink                     INTEGER  NOT NULL PRIMARY KEY,
+   idDrink                     INTEGER PRIMARY KEY NOT NULL,
    strDrink                    TEXT NOT NULL,
-   strDrinkAlternate           TEXT,
-   strDrinkES                  TEXT,
-   strDrinkDE                  TEXT,
-   strDrinkFR                  TEXT,
-   strDrinkZHHANS              TEXT,
-   strDrinkZHHANT              TEXT,
-   strTags                     TEXT,
-   strVideo                    TEXT,
-   strCategory                 TEXT AS DrinkCategory NOT NULL ,
-   strIBA                      TEXT,
-   strAlcoholic                TEXT AS AlcoholStatus,
-   strGlass                    TEXT AS Glass,
-   strInstructions             TEXT ,
-   strInstructionsES           TEXT,
-   strInstructionsDE           TEXT ,
-   strInstructionsFR           TEXT,
-   strInstructionsZHHANS       TEXT,
-   strInstructionsZHHANT       TEXT,
-   strDrinkThumb               TEXT ,
-   strIngredient1              TEXT ,
-   strIngredient2              TEXT  ,
-   strIngredient3              TEXT  ,
-   strIngredient4              TEXT ,
-   strIngredient5              TEXT,
-   strIngredient6              TEXT,
-   strIngredient7              TEXT,
-   strIngredient8              TEXT,
-   strIngredient9              TEXT,
-   strIngredient10             TEXT,
-   strIngredient11             TEXT,
-   strIngredient12             TEXT,
-   strIngredient13             TEXT,
-   strIngredient14             TEXT,
-   strIngredient15             TEXT,
-   strMeasure1                 TEXT  ,
-   strMeasure2                 TEXT ,
-   strMeasure3                 TEXT ,
-   strMeasure4                 TEXT ,
-   strMeasure5                 TEXT,
-   strMeasure6                 TEXT,
-   strMeasure7                 TEXT,
-   strMeasure8                 TEXT,
-   strMeasure9                 TEXT,
-   strMeasure10                TEXT,
-   strMeasure11                TEXT,
-   strMeasure12                TEXT,
-   strMeasure13                TEXT,
-   strMeasure14                TEXT,
-   strMeasure15                TEXT,
-   strCreativeCommonsConfirmed TEXT ,
-   dateModified                TEXT
+   strDrinkThumb               TEXT  NOT NULL,
+   strDrinkAlternate           TEXT DEFAULT NULL,
+   strDrinkES                  TEXT DEFAULT NULL,
+   strDrinkDE                  TEXT DEFAULT NULL,
+   strDrinkFR                  TEXT DEFAULT NULL,
+   strDrinkZHHANS              TEXT DEFAULT NULL,
+   strDrinkZHHANT              TEXT DEFAULT NULL,
+   strTags                     TEXT DEFAULT NULL,
+   strVideo                    TEXT DEFAULT NULL,
+   strCategory                 TEXT AS DrinkCategory  DEFAULT NULL,
+   strIBA                      TEXT DEFAULT NULL,
+   strAlcoholic                TEXT AS AlcoholStatus DEFAULT NULL,
+   strGlass                    TEXT AS Glass DEFAULT NULL,
+   strInstructions             TEXT  DEFAULT NULL,
+   strInstructionsES           TEXT DEFAULT NULL,
+   strInstructionsDE           TEXT  DEFAULT NULL,
+   strInstructionsFR           TEXT DEFAULT NULL,
+   strInstructionsZHHANS       TEXT DEFAULT NULL,
+   strInstructionsZHHANT       TEXT DEFAULT NULL,
+   strIngredient1              TEXT  DEFAULT NULL,
+   strIngredient2              TEXT   DEFAULT NULL,
+   strIngredient3              TEXT   DEFAULT NULL,
+   strIngredient4              TEXT  DEFAULT NULL,
+   strIngredient5              TEXT DEFAULT NULL,
+   strIngredient6              TEXT DEFAULT NULL,
+   strIngredient7              TEXT DEFAULT NULL,
+   strIngredient8              TEXT DEFAULT NULL,
+   strIngredient9              TEXT DEFAULT NULL,
+   strIngredient10             TEXT DEFAULT NULL,
+   strIngredient11             TEXT DEFAULT NULL,
+   strIngredient12             TEXT DEFAULT NULL,
+   strIngredient13             TEXT DEFAULT NULL,
+   strIngredient14             TEXT DEFAULT NULL,
+   strIngredient15             TEXT DEFAULT NULL,
+   strMeasure1                 TEXT   DEFAULT NULL,
+   strMeasure2                 TEXT  DEFAULT NULL,
+   strMeasure3                 TEXT  DEFAULT NULL,
+   strMeasure4                 TEXT  DEFAULT NULL,
+   strMeasure5                 TEXT DEFAULT NULL,
+   strMeasure6                 TEXT DEFAULT NULL,
+   strMeasure7                 TEXT DEFAULT NULL,
+   strMeasure8                 TEXT DEFAULT NULL,
+   strMeasure9                 TEXT DEFAULT NULL,
+   strMeasure10                TEXT DEFAULT NULL,
+   strMeasure11                TEXT DEFAULT NULL,
+   strMeasure12                TEXT DEFAULT NULL,
+   strMeasure13                TEXT DEFAULT NULL,
+   strMeasure14                TEXT DEFAULT NULL,
+   strMeasure15                TEXT DEFAULT NULL,
+   strCreativeCommonsConfirmed TEXT  DEFAULT NULL,
+   dateModified                TEXT DEFAULT NULL
 );
 
 selectAll:
 SELECT * FROM cocktail;
 
 selectById:
-SELECT * FROM cocktail WHERE idDrink = ?;
+SELECT * FROM cocktail
+WHERE idDrink = ?;
 
 insertFullCocktail:
 INSERT OR REPLACE INTO cocktail
 VALUES ?;
+
+insertCocktailSummary:
+INSERT OR REPLACE INTO cocktail (idDrink, strDrink, strDrinkThumb)
+VALUES (:idDrink, :strDrink, :strDrinkThumb);
+
+selectSummaryById:
+SELECT idDrink, strDrink, strDrinkThumb FROM cocktail
+WHERE idDrink = ?;

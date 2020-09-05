@@ -1,0 +1,13 @@
+CREATE TABLE ingredient (
+   strIngredient1 TEXT NOT NULL PRIMARY KEY
+);
+
+selectAll:
+SELECT * FROM ingredient;
+
+selectByName:
+SELECT * FROM ingredient WHERE strIngredient1 = ?;
+
+insert:
+INSERT OR REPLACE INTO ingredient
+VALUES ?;
