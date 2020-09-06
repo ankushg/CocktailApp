@@ -5,10 +5,10 @@ import co.touchlab.stately.ensureNeverFrozen
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.remote.serializers.CocktailDetailResponse
-import com.ankushg.cocktailapp.shared.data.remote.serializers.CocktailSummaryResponse
-import com.ankushg.cocktailapp.shared.data.remote.serializers.IngredientDetailResponse
-import com.ankushg.cocktailapp.shared.data.remote.serializers.IngredientNameResponse
+import com.ankushg.cocktailapp.shared.data.remote.models.CocktailDetailResponse
+import com.ankushg.cocktailapp.shared.data.remote.models.CocktailSummaryResponse
+import com.ankushg.cocktailapp.shared.data.remote.models.IngredientDetailResponse
+import com.ankushg.cocktailapp.shared.data.remote.models.IngredientNameResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
