@@ -1,7 +1,6 @@
 package com.ankushg.cocktailapp
 
 import co.touchlab.sqliter.DatabaseConfiguration
-import com.ankushg.cocktailapp.CocktailsDb
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 import com.squareup.sqldelight.drivers.native.wrapConnection

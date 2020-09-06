@@ -5,8 +5,6 @@ import android.content.Context
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.touchlab.kermit.Kermit
-import com.ankushg.cocktailapp.BaseTest
-import com.ankushg.cocktailapp.TestAppInfo
 import com.ankushg.cocktailapp.shared.AppInfo
 import com.ankushg.cocktailapp.shared.initKoin
 import org.junit.experimental.categories.Category

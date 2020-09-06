@@ -1,6 +1,5 @@
 package com.ankushg.cocktailapp
 
-import com.ankushg.cocktailapp.BaseTest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay

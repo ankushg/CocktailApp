@@ -32,7 +32,8 @@ actual val platformModule = module {
     single<SqlDriver> {
         NativeSqliteDriver(
             CocktailsDb.Schema,
-            "CocktailDb")
+            "CocktailDb"
+        )
     }
 
     val baseKermit = Kermit(NSLogLogger())

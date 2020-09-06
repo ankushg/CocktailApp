@@ -10,7 +10,6 @@ buildscript {
         classpath(Deps.SqlDelight.gradle)
         classpath(Deps.cocoapodsext)
         classpath("org.jetbrains.kotlin:kotlin-serialization:${Deps.Versions.kotlin}")
-
     }
 }
 
@@ -24,7 +23,7 @@ allprojects {
         mavenCentral()
         jcenter()
         maven(url = "https://kotlin.bintray.com/kotlinx")
-        //maven(url = "https://dl.bintray.com/ekito/koin") TODO: revert when Koin is available
+        // maven(url = "https://dl.bintray.com/ekito/koin") TODO: revert when Koin is available
         maven(url = "https://dl.bintray.com/touchlabpublic/kotlin")
         maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
     }

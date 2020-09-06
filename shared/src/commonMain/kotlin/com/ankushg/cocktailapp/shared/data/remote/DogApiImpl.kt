@@ -1,8 +1,8 @@
 package com.ankushg.cocktailapp.shared.data.remote
 
-import com.ankushg.cocktailapp.shared.data.remote.models.BreedResult
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
+import com.ankushg.cocktailapp.shared.data.remote.models.BreedResult
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer

@@ -1,8 +1,8 @@
 package co.touchlab.kampkit.mock
 
+import co.touchlab.karmok.MockManager
 import com.ankushg.cocktailapp.shared.data.remote.KtorApi
 import com.ankushg.cocktailapp.shared.data.remote.models.BreedResult
-import co.touchlab.karmok.MockManager
 
 class KtorApiMock : KtorApi {
     // Call recording provided by experimental library Karmok

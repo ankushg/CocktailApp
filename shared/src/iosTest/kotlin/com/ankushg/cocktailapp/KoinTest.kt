@@ -1,8 +1,6 @@
 package com.ankushg.cocktailapp
 
 import co.touchlab.kermit.Kermit
-import com.ankushg.cocktailapp.BaseTest
-import com.ankushg.cocktailapp.TestAppInfo
 import com.ankushg.cocktailapp.shared.initKoinIos
 import org.koin.core.context.stopKoin
 import org.koin.core.parameter.parametersOf

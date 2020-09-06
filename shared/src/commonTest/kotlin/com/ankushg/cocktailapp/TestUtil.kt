@@ -1,8 +1,8 @@
 package com.ankushg.cocktailapp
 
-import com.ankushg.cocktailapp.shared.data.remote.KtorApi
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
+import com.ankushg.cocktailapp.shared.data.remote.KtorApi
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.Deferred
