@@ -2,8 +2,8 @@ package com.ankushg.cocktailapp.shared
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
+import com.ankushg.cocktailapp.shared.data.remote.DogApi
 import com.ankushg.cocktailapp.shared.data.remote.DogApiImpl
-import com.ankushg.cocktailapp.shared.data.remote.KtorApi
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
@@ -23,11 +23,13 @@ fun initKoin(appModule: Module): KoinApplication {
 
     // Dummy initialization logic, making use of appModule declarations for demonstration purposes.
     val koin = koinApplication.koin
-    val doOnStartup = koin.get<() -> Unit>() // doOnStartup is a lambda which is implemented in Swift on iOS side
+    val doOnStartup =
+        koin.get<() -> Unit>() // doOnStartup is a lambda which is implemented in Swift on iOS side
     doOnStartup.invoke()
 
     val kermit = koin.get<Kermit> { parametersOf(null) }
-    val appInfo = koin.get<AppInfo>() // AppInfo is a Kotlin interface with separate Android and iOS implementations
+    val appInfo =
+        koin.get<AppInfo>() // AppInfo is a Kotlin interface with separate Android and iOS implementations
     kermit.v { "App Id ${appInfo.appId}" }
 
     return koinApplication
@@ -41,7 +43,7 @@ private val coreModule = module {
             Dispatchers.Default
         )
     }
-    single<KtorApi> {
+    single<DogApi> {
         DogApiImpl(
             getWith("DogApiImpl")
         )

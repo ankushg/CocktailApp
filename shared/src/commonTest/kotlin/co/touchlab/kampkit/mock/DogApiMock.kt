@@ -1,18 +1,18 @@
 package co.touchlab.kampkit.mock
 
 import co.touchlab.karmok.MockManager
-import com.ankushg.cocktailapp.shared.data.remote.KtorApi
+import com.ankushg.cocktailapp.shared.data.remote.DogApi
 import com.ankushg.cocktailapp.shared.data.remote.models.BreedResult
 
-class KtorApiMock : KtorApi {
+class DogApiMock : DogApi {
     // Call recording provided by experimental library Karmok
     internal val mock = InnerMock()
-    override suspend fun getJsonFromApi(): BreedResult {
-        return mock.getJsonFromApi.invokeSuspend({ getJsonFromApi() }, listOf())
+    override suspend fun fetchBreeds(): BreedResult {
+        return mock.getJsonFromApi.invokeSuspend({ fetchBreeds() }, listOf())
     }
 
     class InnerMock(delegate: Any? = null) : MockManager(delegate) {
-        internal val getJsonFromApi = MockFunctionRecorder<KtorApiMock, BreedResult>()
+        internal val getJsonFromApi = MockFunctionRecorder<DogApiMock, BreedResult>()
     }
 
     fun successResult(): BreedResult {

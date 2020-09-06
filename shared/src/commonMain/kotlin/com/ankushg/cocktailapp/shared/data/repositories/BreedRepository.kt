@@ -3,19 +3,20 @@ package com.ankushg.cocktailapp.shared.data.repositories
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
 import com.ankushg.cocktailapp.shared.currentTimeMillis
+import com.ankushg.cocktailapp.shared.data.entities.BreedDataSummary
 import com.ankushg.cocktailapp.shared.data.local.Breed
 import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
-import com.ankushg.cocktailapp.shared.data.remote.KtorApi
+import com.ankushg.cocktailapp.shared.data.remote.DogApi
 import com.russhwolf.settings.Settings
 import kotlinx.coroutines.flow.map
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
-class BreedModel() : KoinComponent {
+class BreedRepository() : KoinComponent {
     private val dbHelper: DatabaseHelper by inject()
     private val settings: Settings by inject()
-    private val ktorApi: KtorApi by inject()
+    private val dogApi: DogApi by inject()
     private val log: Kermit by inject { parametersOf("BreedModel") }
 
     companion object {
@@ -30,7 +31,7 @@ class BreedModel() : KoinComponent {
         dbHelper.selectAllItems()
             .map { itemList ->
                 log.v { "Select all query dirtied" }
-                ItemDataSummary(
+                BreedDataSummary(
                     itemList.maxByOrNull { it?.name?.length ?: 0 },
                     itemList
                 )
@@ -46,7 +47,7 @@ class BreedModel() : KoinComponent {
         val currentTimeMS = currentTimeMillis()
         if (isBreedListStale(currentTimeMS)) {
             try {
-                val breedResult = ktorApi.getJsonFromApi()
+                val breedResult = dogApi.fetchBreeds()
                 log.v { "Breed network result: ${breedResult.status}" }
                 val breedList = breedResult.message.keys.toList()
                 log.v { "Fetched ${breedList.size} breeds from network" }
@@ -66,4 +67,3 @@ class BreedModel() : KoinComponent {
     }
 }
 
-data class ItemDataSummary(val longestItem: Breed?, val allItems: List<Breed>)

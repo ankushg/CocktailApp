@@ -2,7 +2,7 @@ package com.ankushg.cocktailapp
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
-import com.ankushg.cocktailapp.shared.data.remote.KtorApi
+import com.ankushg.cocktailapp.shared.data.remote.DogApi
 import com.russhwolf.settings.Settings
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.Deferred
@@ -11,11 +11,11 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 
-fun appStart(helper: DatabaseHelper, settings: Settings, ktorApi: KtorApi, log: Kermit) {
+fun appStart(helper: DatabaseHelper, settings: Settings, dogApi: DogApi, log: Kermit) {
     val coreModule = module {
         single { helper }
         single { settings }
-        single { ktorApi }
+        single { dogApi }
         single { log }
     }
 
