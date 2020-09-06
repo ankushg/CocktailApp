@@ -13,6 +13,7 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 
+@Suppress("UNNECESSARY_SAFE_CALL")
 class BreedRepository() : KoinComponent {
     private val dbHelper: DatabaseHelper by inject()
     private val settings: Settings by inject()
@@ -28,11 +29,11 @@ class BreedRepository() : KoinComponent {
     }
 
     fun selectAllBreeds() =
-        dbHelper.selectAllItems()
+        dbHelper.selectAllBreeds()
             .map { itemList ->
                 log.v { "Select all query dirtied" }
                 BreedDataSummary(
-                    itemList.maxByOrNull { it?.name?.length ?: 0 },
+                    itemList.maxByOrNull { it.name.length },
                     itemList
                 )
             }
@@ -48,8 +49,11 @@ class BreedRepository() : KoinComponent {
         if (isBreedListStale(currentTimeMS)) {
             try {
                 val breedResult = dogApi.fetchBreeds()
+
                 log.v { "Breed network result: ${breedResult.status}" }
+
                 val breedList = breedResult.message.keys.toList()
+
                 log.v { "Fetched ${breedList.size} breeds from network" }
                 dbHelper.insertBreeds(breedList)
                 settings.putLong(DB_TIMESTAMP_KEY, currentTimeMS)
@@ -63,7 +67,7 @@ class BreedRepository() : KoinComponent {
     }
 
     suspend fun updateBreedFavorite(breed: Breed) {
-        dbHelper.updateFavorite(breed.id, breed.favorite != 1L)
+        dbHelper.updateBreedFavoriteStatus(breed.id, breed.favorite != 1L)
     }
 }
 

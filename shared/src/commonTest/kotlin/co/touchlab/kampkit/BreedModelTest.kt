@@ -36,7 +36,7 @@ class BreedModelTest : BaseTest() {
     @BeforeTest
     fun setup() = runTest {
         appStart(dbHelper, settings, ktorApi, kermit)
-        dbHelper.deleteAll()
+        dbHelper.deleteAllBreeds()
         repository = BreedRepository()
         repository.selectAllBreeds().first()
     }
@@ -54,12 +54,12 @@ class BreedModelTest : BaseTest() {
     fun updateFavoriteTest() = runTest {
         ktorApi.mock.getJsonFromApi.returns(ktorApi.successResult())
         assertNull(repository.getBreedsFromNetwork())
-        val breedOld = dbHelper.selectAllItems().first().first()
+        val breedOld = dbHelper.selectAllBreeds().first().first()
         assertFalse(breedOld.favorite == 1L)
 
         repository.updateBreedFavorite(breedOld)
 
-        val breedNew = dbHelper.selectById(breedOld.id).first().first()
+        val breedNew = dbHelper.selectBreedsById(breedOld.id).first().first()
         assertEquals(breedNew.id, breedOld.id)
         assertTrue(breedOld.favorite == 1L)
     }
@@ -73,7 +73,7 @@ class BreedModelTest : BaseTest() {
 
     @AfterTest
     fun breakdown() = runTest {
-        dbHelper.deleteAll()
+        dbHelper.deleteAllBreeds()
         appEnd()
     }
 }

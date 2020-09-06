@@ -1,4 +1,5 @@
 package com.ankushg.cocktailapp.shared.data.local
+
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
 import com.ankushg.cocktailapp.shared.data.local.mappers.cocktailAdapter
@@ -14,8 +15,9 @@ class DatabaseHelper(
 ) {
     private val dbRef: CocktailsDb = CocktailsDb(sqlDriver, cocktailAdapter)
 
-    fun selectAllItems(): Flow<List<Breed>> =
-        dbRef.tableQueries
+    // region Breeds
+    fun selectAllBreeds(): Flow<List<Breed>> =
+        dbRef.breedQueries
             .selectAll()
             .asFlow()
             .mapToList()
@@ -26,31 +28,32 @@ class DatabaseHelper(
 
         dbRef.transactionWithContext(backgroundDispatcher) {
             breedNames.forEach { name ->
-                dbRef.tableQueries.insertBreed(null, name, 0)
+                dbRef.breedQueries.insertBreed(null, name, 0)
             }
         }
     }
 
-    suspend fun selectById(id: Long): Flow<List<Breed>> =
-        dbRef.tableQueries
+    suspend fun selectBreedsById(id: Long): Flow<List<Breed>> =
+        dbRef.breedQueries
             .selectById(id)
             .asFlow()
             .mapToList()
             .flowOn(backgroundDispatcher)
 
-    suspend fun deleteAll() {
+    suspend fun deleteAllBreeds() {
         log.i { "Database Cleared" }
         dbRef.transactionWithContext(backgroundDispatcher) {
-            dbRef.tableQueries.deleteAll()
+            dbRef.breedQueries.deleteAll()
         }
     }
 
-    suspend fun updateFavorite(breedId: Long, favorite: Boolean) {
+    suspend fun updateBreedFavoriteStatus(breedId: Long, favorite: Boolean) {
         log.i { "Breed $breedId: Favorited $favorite" }
         dbRef.transactionWithContext(backgroundDispatcher) {
-            dbRef.tableQueries.updateFavorite(favorite.toLong(), breedId)
+            dbRef.breedQueries.updateFavorite(favorite.toLong(), breedId)
         }
     }
+    // endregion
 }
 
 fun Breed.isFavorited(): Boolean = this.favorite != 0L

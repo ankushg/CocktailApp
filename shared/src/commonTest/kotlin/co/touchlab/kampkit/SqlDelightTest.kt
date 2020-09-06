@@ -26,13 +26,13 @@ class SqlDelightTest : BaseTest() {
             Kermit(),
             Dispatchers.Default
         )
-        dbHelper.deleteAll()
+        dbHelper.deleteAllBreeds()
         dbHelper.insertBreed("Beagle")
     }
 
     @Test
     fun `Select All Items Success`() = runTest {
-        val breeds = dbHelper.selectAllItems().first()
+        val breeds = dbHelper.selectAllBreeds().first()
         assertNotNull(
             breeds.find { it.name == "Beagle" },
             "Could not retrieve Breed"
@@ -41,20 +41,20 @@ class SqlDelightTest : BaseTest() {
 
     @Test
     fun `Select Item by Id Success`() = runTest {
-        val breeds = dbHelper.selectAllItems().first()
+        val breeds = dbHelper.selectAllBreeds().first()
         val firstBreed = breeds.first()
         assertNotNull(
-            dbHelper.selectById(firstBreed.id),
+            dbHelper.selectBreedsById(firstBreed.id),
             "Could not retrieve Breed by Id"
         )
     }
 
     @Test
     fun `Update Favorite Success`() = runTest {
-        val breeds = dbHelper.selectAllItems().first()
+        val breeds = dbHelper.selectAllBreeds().first()
         val firstBreed = breeds.first()
-        dbHelper.updateFavorite(firstBreed.id, true)
-        val newBreed = dbHelper.selectById(firstBreed.id).first().first()
+        dbHelper.updateBreedFavoriteStatus(firstBreed.id, true)
+        val newBreed = dbHelper.selectBreedsById(firstBreed.id).first().first()
         assertNotNull(
             newBreed,
             "Could not retrieve Breed by Id"
@@ -64,15 +64,16 @@ class SqlDelightTest : BaseTest() {
             "Favorite Did Not Save"
         )
     }
+
     @Test
     fun `Delete All Success`() = runTest {
         dbHelper.insertBreed("Poodle")
         dbHelper.insertBreed("Schnauzer")
-        assertTrue(dbHelper.selectAllItems().first().isNotEmpty())
-        dbHelper.deleteAll()
+        assertTrue(dbHelper.selectAllBreeds().first().isNotEmpty())
+        dbHelper.deleteAllBreeds()
 
         assertTrue(
-            dbHelper.selectAllItems().first().count() == 0,
+            dbHelper.selectAllBreeds().first().count() == 0,
             "Delete All did not work"
         )
     }
