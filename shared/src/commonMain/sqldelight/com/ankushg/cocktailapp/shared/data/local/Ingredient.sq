@@ -1,13 +1,28 @@
+import com.ankushg.cocktailapp.shared.data.enums.IngredientSummary;
+
 CREATE TABLE ingredient (
-   strIngredient1 TEXT NOT NULL PRIMARY KEY
+    strIngredient TEXT NOT NULL PRIMARY KEY,
+    idIngredient INTEGER DEFAULT NULL,
+    strDescription TEXT DEFAULT NULL,
+    strType TEXT DEFAULT NULL,
+    strAlcohol TEXT DEFAULT NULL,
+    strAbv INTEGER DEFAULT NULL
 );
 
 selectAll:
-SELECT * FROM ingredient;
+SELECT *
+FROM ingredient;
 
 selectByName:
-SELECT * FROM ingredient WHERE strIngredient1 = ?;
+SELECT * FROM ingredient WHERE strIngredient = ?;
 
-insert:
+insertFull:
 INSERT OR REPLACE INTO ingredient
 VALUES ?;
+
+insertSummary:
+INSERT OR REPLACE INTO ingredient (strIngredient)
+VALUES (:strIngredient);
+
+selectSummary:
+SELECT strIngredient AS strIngredient1 FROM ingredient;
