@@ -1,11 +1,7 @@
 package com.ankushg.cocktailapp.shared.data.local
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
-import com.ankushg.cocktailapp.shared.data.local.Breed
-import com.ankushg.cocktailapp.shared.data.local.asFlow
-import com.ankushg.cocktailapp.shared.data.local.mapToList
 import com.ankushg.cocktailapp.shared.data.local.mappers.cocktailAdapter
-import com.ankushg.cocktailapp.shared.data.local.transactionWithContext
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +12,7 @@ class DatabaseHelper(
     private val log: Kermit,
     private val backgroundDispatcher: CoroutineDispatcher
 ) {
+    private val dbRef: CocktailsDb = CocktailsDb(sqlDriver, cocktailAdapter)
 
     fun selectAllItems(): Flow<List<Breed>> =
         dbRef.tableQueries

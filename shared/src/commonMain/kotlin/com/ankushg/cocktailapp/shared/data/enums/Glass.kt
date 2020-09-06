@@ -1,5 +1,12 @@
 package com.ankushg.cocktailapp.shared.data.enums
 
+/**
+ * Note: this was manually compiled from the API as a design decision to simplify representation
+ *
+ * This might break in the future.
+ *
+ * TODO: add logging to alert when this needs to be updated
+ */
 enum class Glass(val strGlass: String) {
     HIGHBALL_GLASS("Highball glass"),
     COCKTAIL_GLASS("Cocktail glass"),
@@ -32,6 +39,11 @@ enum class Glass(val strGlass: String) {
     MARTINI_GLASS("Martini Glass"),
     BALLOON_GLASS("Balloon Glass"),
     COUPE_GLASS("Coupe Glass"),
-    OTHER("")
-}
+    OTHER("");
 
+    companion object {
+        fun forValue(strGlass: String) = Glass.values()
+            .firstOrNull { it.strGlass == strGlass }
+            ?: Glass.OTHER
+    }
+}
