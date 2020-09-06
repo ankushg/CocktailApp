@@ -1,89 +1,119 @@
 plugins {
     kotlin("multiplatform")
+    id("co.touchlab.native.cocoapods")
+    id("kotlinx-serialization")
     id("com.android.library")
-    id("kotlin-android-extensions")
     id("com.squareup.sqldelight")
 }
-group = "com.ankushg.cocktailapp"
-version = "1.0-SNAPSHOT"
 
 kotlin {
     android()
-
-    // TODO: Revert to just ios() when gradle plugin can properly resolve it
+    // Revert to just ios() when gradle plugin can properly resolve it
     val onPhone = System.getenv("SDK_NAME")?.startsWith("iphoneos") ?: false
     if (onPhone) {
         iosArm64("ios")
     } else {
         iosX64("ios")
     }
-//    ios {
-//        binaries.framework
-//            baseName = "shared"
-//        }
-//    }
+
+    version = "1.0"
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(Deps.Coroutines.core) {
-                    version {
-                        // TODO: remove once native-mt is merged
-                        strictly(Deps.Versions.coroutines)
-                    }
-                }
-
-                implementation(Deps.Koin.core)
-
-                // SqlDelight
-                implementation(Deps.SqlDelight.runtime)
-                implementation(Deps.SqlDelight.coroutinesExtensions)
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-                implementation(Deps.Koin.test)
-//                TODO: uncomment when less flaky with resolution
-//                implementation(Deps.Coroutines.test)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(Deps.Android.material_x)
-                implementation(Deps.Coroutines.android)
-                implementation(Deps.SqlDelight.androidDriver)
-            }
-        }
-        val androidTest by getting {
-            dependencies {
-                implementation(kotlin("test-junit"))
-                implementation(Deps.junit)
-            }
-        }
-        val iosMain by getting {
-            dependencies {
-                implementation(Deps.SqlDelight.nativeDriver)
-            }
-        }
-        val iosTest by getting {
-            dependencies {
-
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlin.RequiresOptIn")
+                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
             }
         }
     }
+
+    sourceSets["commonMain"].dependencies {
+        implementation(kotlin("stdlib-common", Deps.Versions.kotlin))
+
+        implementation(Deps.SqlDelight.runtime)
+
+        // Ktor
+        implementation(Deps.Ktor.commonCore)
+        implementation(Deps.Ktor.commonJson)
+        implementation(Deps.Ktor.commonLogging)
+        implementation(Deps.Ktor.commonSerialization)
+
+        implementation(Deps.Coroutines.common)
+        implementation(Deps.stately)
+        implementation(Deps.multiplatformSettings)
+        implementation(Deps.koinCore)
+        api(Deps.kermit)
+    }
+
+    sourceSets["commonTest"].dependencies {
+        implementation(Deps.KotlinTest.common)
+        implementation(Deps.KotlinTest.annotations)
+
+        implementation(Deps.multiplatformSettingsTest)
+
+        implementation(Deps.koinTest)
+
+        // Karmok is an experimental library which helps with mocking interfaces
+        implementation(Deps.karmok)
+    }
+
+    sourceSets["androidMain"].dependencies {
+        implementation(kotlin("stdlib", Deps.Versions.kotlin))
+        implementation(Deps.SqlDelight.driverAndroid)
+        implementation(Deps.Coroutines.android)
+
+        implementation(Deps.Ktor.jvmCore)
+        implementation(Deps.Ktor.jvmJson)
+        implementation(Deps.Ktor.jvmLogging)
+        implementation(Deps.Ktor.androidSerialization)
+        implementation(Deps.Ktor.androidCore)
+    }
+
+    sourceSets["androidTest"].dependencies {
+        implementation(Deps.KotlinTest.jvm)
+        implementation(Deps.KotlinTest.junit)
+
+        implementation(Deps.AndroidXTest.core)
+        implementation(Deps.AndroidXTest.junit)
+        implementation(Deps.AndroidXTest.runner)
+        implementation(Deps.AndroidXTest.rules)
+
+        implementation(Deps.Coroutines.test)
+
+        implementation(Deps.robolectric)
+    }
+
+    sourceSets["iosMain"].dependencies {
+        implementation(Deps.Coroutines.common) {
+            version {
+                strictly(Deps.Versions.coroutines)
+            }
+        }
+
+        implementation(Deps.SqlDelight.driverIos)
+        implementation(Deps.Ktor.ios)
+        implementation(Deps.koinCore)
+    }
+
+    cocoapodsext {
+        summary = "Common library for CocktailApp"
+        homepage = "https://github.com/ankushg/CocktailApp"
+        framework {
+            isStatic = false
+            export(Deps.kermit)
+            transitiveExport = true
+        }
+    }
 }
+
 android {
-    compileSdkVersion(Deps.Versions.Android.compile_sdk)
+    compileSdkVersion(Deps.Versions.compile_sdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(Deps.Versions.Android.min_sdk)
-        targetSdkVersion(Deps.Versions.Android.target_sdk)
-
+        minSdkVersion(Deps.Versions.min_sdk)
+        targetSdkVersion(Deps.Versions.target_sdk)
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -92,21 +122,6 @@ android {
         isAbortOnError = true
     }
 }
-
-// TODO: Revert when we switch back to ios()
-//val packForXcode by tasks.creating(Sync::class) {
-//    group = "build"
-//    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-//    val sdkName = System.getenv("SDK_NAME") ?: "iphonesimulator"
-//    val targetName = "ios" + if (sdkName.startsWith("iphoneos")) "Arm64" else "X64"
-//    val framework = kotlin.targets.getByName<KotlinNativeTarget>(targetName).binaries.getFramework(mode)
-//    inputs.property("mode", mode)
-//    dependsOn(framework.linkTask)
-//    val targetDir = File(buildDir, "xcode-frameworks")
-//    from({ framework.outputDirectory })
-//    into(targetDir)
-//}
-//tasks.getByName("build").dependsOn(packForXcode)
 
 sqldelight {
     database("CocktailsDb") {

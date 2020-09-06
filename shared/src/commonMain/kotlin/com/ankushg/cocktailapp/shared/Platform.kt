@@ -1,5 +1,5 @@
 package com.ankushg.cocktailapp.shared
 
-expect class Platform() {
-    val platform: String
-}
+expect fun currentTimeMillis(): Long
+
+internal expect fun printThrowable(t: Throwable)
