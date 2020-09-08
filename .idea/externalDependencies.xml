@@ -3,6 +3,7 @@
   <component name="ExternalDependencies">
     <plugin id="androidx.compose.plugins.idea" />
     <plugin id="com.dubreuia" />
+    <plugin id="com.squareup.sqldelight" />
     <plugin id="org.jetbrains.kotlin" />
   </component>
 </project>
