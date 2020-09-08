@@ -88,7 +88,7 @@ interface CocktailApi {
      *
      * https://www.thecocktaildb.com/api/json/v1/1/randomselection.php
      */
-    suspend fun fetchRandomCocktails(): CocktailResponse
+    suspend fun fetchRandomCocktailSelection(): CocktailResponse
 
     /**
      *  List Popular cocktails (only available to $2+ Patreon supporters)

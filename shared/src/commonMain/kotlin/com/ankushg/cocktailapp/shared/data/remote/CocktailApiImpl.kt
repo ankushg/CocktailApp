@@ -57,21 +57,27 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
     }
 
     override suspend fun fetchFullCocktailDetails(id: Int): CocktailResponse = client.get {
+        log.d { "Querying API for cocktail with ID $id" }
+
         endpoint(
             "lookup.php",
             "i" to id
         )
     }
 
-    override suspend fun cocktailsByName(query: String): CocktailResponse = client.get {
+    override suspend fun cocktailsByName(name: String): CocktailResponse = client.get {
+        log.d { "Querying API for cocktail details: $name" }
+
         endpoint(
             "search.php",
-            "s" to query
+            "s" to name
         )
     }
 
     override suspend fun cocktailsByFirstLetter(letter: String): CocktailResponse =
         client.get {
+            log.d { "Querying API for cocktails starting with: $letter" }
+
             endpoint(
                 "search.php",
                 "f" to letter
@@ -80,22 +86,28 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
 
     override suspend fun cocktailsByIngredient(ingredient: String): CocktailResponse =
         client.get {
+            log.d { "Querying API for cocktails containing: $ingredient" }
+
             endpoint(
                 "filter.php",
                 "i" to ingredient
             )
         }
 
-    override suspend fun cocktailsByIngredients(ingredient: Collection<String>): CocktailResponse =
+    override suspend fun cocktailsByIngredients(ingredientList: Collection<String>): CocktailResponse =
         client.get {
+            log.d { "Querying API for cocktails containing: $ingredientList" }
+
             endpoint(
                 "filter.php",
-                "i" to ingredient.joinToString(separator = ",")
+                "i" to ingredientList.joinToString(separator = ",")
             )
         }
 
     override suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailResponse =
         client.get {
+            log.d { "Querying API for cocktails by alcohol status: $alcoholStatus" }
+
             endpoint(
                 "filter.php",
                 "a" to alcoholStatus.strAlcoholic
@@ -104,6 +116,8 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
 
     override suspend fun cocktailsByCategory(category: DrinkCategory): CocktailResponse =
         client.get {
+            log.d { "Querying API for cocktails by category: $category" }
+
             endpoint(
                 "filter.php",
                 "c" to category.strCategory
@@ -111,6 +125,8 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
         }
 
     override suspend fun cocktailsByGlass(glass: Glass): CocktailResponse = client.get {
+        log.d { "Querying API for cocktails by glass type: $glass" }
+
         endpoint(
             "filter.php",
             "g" to glass.strGlass
@@ -118,30 +134,42 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
     }
 
     override suspend fun fetchRandomCocktail(): CocktailResponse = client.get {
+        log.d { "Querying API for random cocktail" }
+
         endpoint("random.php")
     }
 
-    override suspend fun fetchRandomCocktails(): CocktailResponse = client.get {
+    override suspend fun fetchRandomCocktailSelection(): CocktailResponse = client.get {
+        log.d { "Querying API for random selection of cocktails" }
+
         endpoint("randomselection.php")
     }
 
     override suspend fun fetchPopularCocktails(): CocktailResponse = client.get {
+        log.d { "Querying API for popular cocktails" }
+
         endpoint("popular.php")
     }
 
     override suspend fun fetchLatestCocktails(): CocktailResponse = client.get {
+        log.d { "Querying API for latest cocktails" }
+
         endpoint("latest.php")
     }
 
-    override suspend fun fetchIngredientByName(query: String): IngredientDetailResponse =
+    override suspend fun fetchIngredientByName(name: String): IngredientDetailResponse =
         client.get {
+            log.d { "Querying API for ingredient details: $name" }
+
             endpoint(
                 "search.php",
-                "i" to query
+                "i" to name
             )
         }
 
     override suspend fun indexIngredients(): IngredientNameResponse = client.get {
+        log.d { "Querying API for all ingredients..." }
+
         endpoint(
             "list.php",
             "i" to "list"
@@ -149,6 +177,8 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
     }
 
     override suspend fun fetchIngredientById(id: Int): IngredientDetailResponse = client.get {
+        log.d { "Querying API for ingredient with ID $id" }
+
         endpoint(
             "lookup.php",
             "iid" to id

@@ -11,6 +11,7 @@ import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onEach
 
 class DatabaseHelper(
     sqlDriver: SqlDriver,
@@ -54,25 +55,38 @@ class DatabaseHelper(
     suspend fun updateBreedFavoriteStatus(breedId: Long, favorite: Boolean) {
         log.i { "Breed $breedId: Favorited $favorite" }
         dbRef.transactionWithContext(backgroundDispatcher) {
-            dbRef.breedQueries.updateFavorite(favorite.toLong(), breedId)
+            dbRef.breedQueries.updateFavorite(if (favorite) 1L else 0L, breedId)
         }
     }
     // endregion
 
     // region Ingredients
-    fun selectAllIngredients() = dbRef.ingredientQueries
-        .selectAll()
-        .asFlow()
-        .mapToList()
-        .flowOn(backgroundDispatcher)
+    fun selectAllIngredients(): Flow<List<Ingredient>> {
+        log.d { "Querying DB for all ingredients" }
+        return dbRef.ingredientQueries
+            .selectAll()
+            .asFlow()
+            .mapToList()
+            .flowOn(backgroundDispatcher)
+            .onEach {
+                log.d { "Emitting updated ingredients from db: $it" }
+            }
+    }
 
-    fun selectIngredient(ingredientName: String) = dbRef.ingredientQueries
-        .selectByName(ingredientName)
-        .asFlow()
-        .mapToOne()
-        .flowOn(backgroundDispatcher)
+    fun selectIngredient(ingredientName: String): Flow<Ingredient> {
+        log.d { "Querying DB for ingredient: $ingredientName" }
+        return dbRef.ingredientQueries
+            .selectByName(ingredientName)
+            .asFlow()
+            .mapToOne()
+            .flowOn(backgroundDispatcher)
+            .onEach {
+                log.d { "Emitting updated ingredient $ingredientName from db: $it" }
+            }
+    }
 
     suspend fun insertIngredientSummaries(ingredientSummaries: List<IngredientSummary>) {
+        log.d { "Inserting ${ingredientSummaries.size} ingredient summaries into database" }
         dbRef.transactionWithContext(backgroundDispatcher) {
             ingredientSummaries
                 .map { it.strIngredient1 }
@@ -81,6 +95,7 @@ class DatabaseHelper(
     }
 
     suspend fun insertIngredientDetails(ingredients: Collection<Ingredient>) {
+        log.d { "Inserting ${ingredients.size} detailed ingredients into database" }
         dbRef.transactionWithContext(backgroundDispatcher) {
             ingredients
                 .forEach(dbRef.ingredientQueries::insertFull)
@@ -89,17 +104,31 @@ class DatabaseHelper(
     //endregion
 
     // region Cocktails
-    fun selectAllCocktails() = dbRef.cocktailQueries
-        .selectAll()
-        .asFlow()
-        .mapToList()
-        .flowOn(backgroundDispatcher)
+    fun selectAllCocktails(): Flow<List<Cocktail>> {
+        log.d { "Querying DB for all ingredients" }
 
-    fun selectCocktailByName(name: String) = dbRef.cocktailQueries
-        .selectByName(name)
-        .asFlow()
-        .mapToOne()
-        .flowOn(backgroundDispatcher)
+        return dbRef.cocktailQueries
+            .selectAll()
+            .asFlow()
+            .mapToList()
+            .flowOn(backgroundDispatcher)
+            .onEach {
+                log.d { "Emitting updated cocktails from db: $it" }
+            }
+    }
+
+    fun selectCocktailByName(name: String): Flow<Cocktail> {
+        log.d { "Querying DB for cocktail: $name" }
+
+        return dbRef.cocktailQueries
+            .selectByName(name)
+            .asFlow()
+            .mapToOne()
+            .flowOn(backgroundDispatcher)
+            .onEach {
+                log.d { "Emitting updated cocktail $name from db: $it" }
+            }
+    }
 
     fun selectCocktailsByMultipleParameters(
         nameSubstring: String? = null,
@@ -119,13 +148,13 @@ class DatabaseHelper(
         .mapToList()
         .flowOn(backgroundDispatcher)
 
-    suspend fun insertCocktails(cocktails: Collection<Cocktail>) =
+    suspend fun insertCocktails(cocktails: Collection<Cocktail>) {
+        log.d { "Inserting ${cocktails.size} cocktails into database" }
+
         dbRef.transactionWithContext(backgroundDispatcher) {
             cocktails
                 .forEach(dbRef.cocktailQueries::insertFullCocktail)
         }
+    }
     // endregion
 }
-
-fun Breed.isFavorited(): Boolean = this.favorite != 0L
-internal fun Boolean.toLong(): Long = if (this) 1L else 0L
