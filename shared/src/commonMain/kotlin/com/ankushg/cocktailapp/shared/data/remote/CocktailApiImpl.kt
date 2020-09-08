@@ -20,6 +20,23 @@ import io.ktor.client.request.parameter
 import io.ktor.http.takeFrom
 
 class CocktailApiImpl(private val log: Kermit) : CocktailApi {
+    companion object {
+        private val baseUrl = "https://www.thecocktaildb.com/api/json/v1/"
+
+        // TODO: replace with real key once I figure out how to store secrets
+        private val developerApiKey = "1"
+
+        private fun HttpRequestBuilder.endpoint(path: String, vararg params: Pair<String, Any>) {
+            url {
+                takeFrom("${baseUrl}/${developerApiKey}")
+                path(path)
+                params.forEach { (key, value) ->
+                    parameter(key, value)
+                }
+            }
+        }
+    }
+
     private val client = HttpClient {
         install(JsonFeature) {
             serializer = KotlinxSerializer()
@@ -37,17 +54,6 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
 
     init {
         ensureNeverFrozen()
-    }
-
-    private fun HttpRequestBuilder.endpoint(path: String, vararg params: Pair<String, Any>) {
-        url {
-            takeFrom("${CocktailApi.baseUrl}/${CocktailApi.developerApiKey}")
-            path(path)
-            params.forEach { (key, value) ->
-                parameter(key, value)
-            }
-
-        }
     }
 
     override suspend fun fetchFullCocktailDetails(id: Int): CocktailResponse = client.get {

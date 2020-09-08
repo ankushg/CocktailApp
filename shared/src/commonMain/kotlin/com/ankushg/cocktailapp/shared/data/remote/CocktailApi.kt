@@ -11,13 +11,6 @@ import com.ankushg.cocktailapp.shared.data.remote.models.IngredientNameResponse
  * [Documentation](https://www.thecocktaildb.com/api.php)
  */
 interface CocktailApi {
-    companion object {
-        val baseUrl = "https://www.thecocktaildb.com/api/json/v1/"
-
-        // TODO: replace with real key once I figure out how to store secrets
-        val developerApiKey = "1"
-    }
-
     // region cocktails
     /**
      * Lookup full cocktail details by id
