@@ -70,4 +70,3 @@ class BreedRepository() : KoinComponent {
         dbHelper.updateBreedFavoriteStatus(breed.id, breed.favorite != 1L)
     }
 }
-

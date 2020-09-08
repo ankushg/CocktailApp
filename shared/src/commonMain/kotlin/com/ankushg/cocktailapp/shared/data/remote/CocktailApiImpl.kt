@@ -28,7 +28,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
 
         private fun HttpRequestBuilder.endpoint(path: String, vararg params: Pair<String, Any>) {
             url {
-                takeFrom("${baseUrl}/${developerApiKey}")
+                takeFrom("$baseUrl/$developerApiKey")
                 path(path)
                 params.forEach { (key, value) ->
                     parameter(key, value)
