@@ -2,6 +2,8 @@ package com.ankushg.cocktailapp.shared
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
+import com.ankushg.cocktailapp.shared.data.remote.CocktailApi
+import com.ankushg.cocktailapp.shared.data.remote.CocktailApiImpl
 import com.ankushg.cocktailapp.shared.data.remote.DogApi
 import com.ankushg.cocktailapp.shared.data.remote.DogApiImpl
 import kotlinx.coroutines.Dispatchers
@@ -48,6 +50,9 @@ private val coreModule = module {
             log = getWith("DogApiImpl")
         )
     }
+    single<CocktailApi> {
+        CocktailApiImpl(
+            log = getWith("CocktailApiImpl")
         )
     }
 }
