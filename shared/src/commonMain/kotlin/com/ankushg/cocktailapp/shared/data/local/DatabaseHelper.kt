@@ -2,6 +2,9 @@ package com.ankushg.cocktailapp.shared.data.local
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
+import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
+import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.data.enums.Glass
 import com.ankushg.cocktailapp.shared.data.local.mappers.cocktailAdapter
 import com.ankushg.cocktailapp.shared.data.remote.models.IngredientSummary
 import com.squareup.sqldelight.db.SqlDriver
@@ -84,6 +87,44 @@ class DatabaseHelper(
         }
     }
     //endregion
+
+    // region Cocktails
+    fun selectAllCocktails() = dbRef.cocktailQueries
+        .selectAll()
+        .asFlow()
+        .mapToList()
+        .flowOn(backgroundDispatcher)
+
+    fun selectCocktailByName(name: String) = dbRef.cocktailQueries
+        .selectByName(name)
+        .asFlow()
+        .mapToOne()
+        .flowOn(backgroundDispatcher)
+
+    fun selectCocktailsByMultipleParameters(
+        nameSubstring: String? = null,
+        id: Long? = null,
+        alcoholic: AlcoholStatus? = null,
+        glass: Glass? = null,
+        category: DrinkCategory? = null
+    ) = dbRef.cocktailQueries
+        .selectByMulti(
+            nameSubstring = nameSubstring,
+            id = id,
+            alcoholic = alcoholic,
+            glass = glass,
+            category = category
+        )
+        .asFlow()
+        .mapToList()
+        .flowOn(backgroundDispatcher)
+
+    suspend fun insertCocktails(cocktails: Collection<Cocktail>) =
+        dbRef.transactionWithContext(backgroundDispatcher) {
+            cocktails
+                .forEach(dbRef.cocktailQueries::insertFullCocktail)
+        }
+    // endregion
 }
 
 fun Breed.isFavorited(): Boolean = this.favorite != 0L
