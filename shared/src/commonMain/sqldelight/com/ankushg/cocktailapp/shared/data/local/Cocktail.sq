@@ -24,6 +24,8 @@ CREATE TABLE cocktail(
    strInstructionsFR           TEXT DEFAULT NULL,
    strInstructionsZHHANS       TEXT DEFAULT NULL,
    strInstructionsZHHANT       TEXT DEFAULT NULL,
+-- TODO: potentially split off drink metadata from recipe
+-- TODO: create separate Ingredient/Measure entity
    strIngredient1              TEXT  DEFAULT NULL,
    strIngredient2              TEXT   DEFAULT NULL,
    strIngredient3              TEXT   DEFAULT NULL,
@@ -65,6 +67,10 @@ selectById:
 SELECT * FROM cocktail
 WHERE idDrink = ?;
 
+selectByName:
+SELECT * FROM cocktail
+WHERE strDrink = ?;
+
 insertFullCocktail:
 INSERT OR REPLACE INTO cocktail
 VALUES ?;
@@ -73,3 +79,27 @@ insertCocktailSummary:
 INSERT OR REPLACE INTO cocktail (idDrink, strDrink, strDrinkThumb)
 VALUES (:idDrink, :strDrink, :strDrinkThumb);
 
+-- TODO: index on these columns
+selectByMulti:
+SELECT * FROM cocktail
+WHERE TRUE
+AND (:nameSubstring IS NULL OR strDrink LIKE '%' || :nameSubstring || '%')
+AND (:id IS NULL OR idDrink = :id)
+AND (:alcoholic IS NULL OR strAlcoholic = :alcoholic)
+AND (:glass IS NULL OR strGlass = :glass)
+AND (:category IS NULL OR strCategory = :category)
+;
+
+selectLatest:
+SELECT * FROM cocktail
+ORDER BY dateModified DESC
+LIMIT :limit;
+
+selectRandom:
+SELECT * FROM cocktail
+ORDER BY RANDOM()
+LIMIT :limit;
+
+-- TODO: search by ingredients
+-- - can be made using only provided ingredients
+-- - contains every given ingredient
