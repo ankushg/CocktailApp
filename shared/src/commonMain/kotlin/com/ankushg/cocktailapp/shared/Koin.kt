@@ -38,14 +38,16 @@ fun initKoin(appModule: Module): KoinApplication {
 private val coreModule = module {
     single {
         DatabaseHelper(
-            get(),
-            getWith("DatabaseHelper"),
-            Dispatchers.Default
+            sqlDriver = get(),
+            log = getWith("DatabaseHelper"),
+            backgroundDispatcher = Dispatchers.Default
         )
     }
     single<DogApi> {
         DogApiImpl(
-            getWith("DogApiImpl")
+            log = getWith("DogApiImpl")
+        )
+    }
         )
     }
 }
