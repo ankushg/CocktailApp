@@ -9,7 +9,8 @@ object Deps {
         val target_sdk = 29
         val compile_sdk = 29
 
-        val ktlint_gradle_plugin = "9.2.1"
+        val ktlint_gradle_plugin = "9.4.0"
+        val ktlint = "0.38.1"
 
         val sqlDelight = "1.4.3"
         val ktor = "1.4.0"

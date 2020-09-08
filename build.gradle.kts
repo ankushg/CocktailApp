@@ -33,7 +33,7 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     ktlint {
-        version.set("0.37.2")
+        version.set(Deps.Versions.ktlint)
         enableExperimentalRules.set(true)
         verbose.set(true)
         filter {
