@@ -3,6 +3,7 @@ package com.ankushg.cocktailapp.shared.data.local
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
 import com.ankushg.cocktailapp.shared.data.local.mappers.cocktailAdapter
+import com.ankushg.cocktailapp.shared.data.remote.models.IngredientSummary
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -33,7 +34,7 @@ class DatabaseHelper(
         }
     }
 
-    suspend fun selectBreedsById(id: Long): Flow<List<Breed>> =
+    fun selectBreedsById(id: Long): Flow<List<Breed>> =
         dbRef.breedQueries
             .selectById(id)
             .asFlow()
@@ -54,6 +55,35 @@ class DatabaseHelper(
         }
     }
     // endregion
+
+    // region Ingredients
+    fun selectAllIngredients() = dbRef.ingredientQueries
+        .selectAll()
+        .asFlow()
+        .mapToList()
+        .flowOn(backgroundDispatcher)
+
+    fun selectIngredient(ingredientName: String) = dbRef.ingredientQueries
+        .selectByName(ingredientName)
+        .asFlow()
+        .mapToOne()
+        .flowOn(backgroundDispatcher)
+
+    suspend fun insertIngredientSummaries(ingredientSummaries: List<IngredientSummary>) {
+        dbRef.transactionWithContext(backgroundDispatcher) {
+            ingredientSummaries
+                .map { it.strIngredient1 }
+                .forEach(dbRef.ingredientQueries::insertSummary)
+        }
+    }
+
+    suspend fun insertIngredientDetails(ingredients: Collection<Ingredient>) {
+        dbRef.transactionWithContext(backgroundDispatcher) {
+            ingredients
+                .forEach(dbRef.ingredientQueries::insertFull)
+        }
+    }
+    //endregion
 }
 
 fun Breed.isFavorited(): Boolean = this.favorite != 0L

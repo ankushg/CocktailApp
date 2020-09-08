@@ -11,20 +11,22 @@ import kotlinx.serialization.Serializer
 import kotlinx.serialization.UseSerializers
 
 /**
- * Temporarily using kotlinx.serialization's experimental serializer generator for external classes
+ * Using kotlinx.serialization's serializer generator on the SqlDelight generated class
+ *
+ * Ideally would be a separate, isolated, mapped data class
  */
 @OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = Ingredient::class)
 object IngredientSerializer
 
 /**
- * Represents TheCocktailDB's weird lightweight representation of an Ingredient, where it uses a
- * different variable name from the actual ID column (unlike Cocktail)
+ * TheCocktailDB's weird lightweight representation of an Ingredient.
+ *
+ * The API uses a different variable name ([strIngredient1]) than the name of the field on the
+ * detailed model response ([Ingredient.strIngredient])
  */
 @Serializable
-data class IngredientSummary(
-    val strIngredient1: String
-)
+data class IngredientSummary(val strIngredient1: String)
 
 @Serializable
 data class IngredientNameResponse(val ingredients: List<IngredientSummary>)
