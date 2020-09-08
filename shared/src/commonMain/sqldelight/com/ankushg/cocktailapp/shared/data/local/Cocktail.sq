@@ -73,6 +73,3 @@ insertCocktailSummary:
 INSERT OR REPLACE INTO cocktail (idDrink, strDrink, strDrinkThumb)
 VALUES (:idDrink, :strDrink, :strDrinkThumb);
 
-selectSummaryById:
-SELECT idDrink, strDrink, strDrinkThumb FROM cocktail
-WHERE idDrink = ?;

@@ -5,8 +5,7 @@ import co.touchlab.stately.ensureNeverFrozen
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.remote.models.CocktailDetailResponse
-import com.ankushg.cocktailapp.shared.data.remote.models.CocktailSummaryResponse
+import com.ankushg.cocktailapp.shared.data.remote.models.CocktailResponse
 import com.ankushg.cocktailapp.shared.data.remote.models.IngredientDetailResponse
 import com.ankushg.cocktailapp.shared.data.remote.models.IngredientNameResponse
 import io.ktor.client.HttpClient
@@ -51,21 +50,21 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
         }
     }
 
-    override suspend fun fetchFullCocktailDetails(id: Int): CocktailDetailResponse = client.get {
+    override suspend fun fetchFullCocktailDetails(id: Int): CocktailResponse = client.get {
         endpoint(
             "lookup.php",
             "i" to id
         )
     }
 
-    override suspend fun cocktailsByName(query: String): CocktailSummaryResponse = client.get {
+    override suspend fun cocktailsByName(query: String): CocktailResponse = client.get {
         endpoint(
             "search.php",
             "s" to query
         )
     }
 
-    override suspend fun cocktailsByFirstLetter(letter: String): CocktailSummaryResponse =
+    override suspend fun cocktailsByFirstLetter(letter: String): CocktailResponse =
         client.get {
             endpoint(
                 "search.php",
@@ -73,7 +72,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByIngredient(ingredient: Any): CocktailSummaryResponse =
+    override suspend fun cocktailsByIngredient(ingredient: String): CocktailResponse =
         client.get {
             endpoint(
                 "filter.php",
@@ -81,16 +80,15 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByIngredients(ingredient: Collection<Any>): CocktailSummaryResponse =
+    override suspend fun cocktailsByIngredients(ingredient: Collection<String>): CocktailResponse =
         client.get {
             endpoint(
                 "filter.php",
                 "i" to ingredient.joinToString(separator = ",")
             )
-
         }
 
-    override suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailSummaryResponse =
+    override suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailResponse =
         client.get {
             endpoint(
                 "filter.php",
@@ -98,7 +96,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByCategory(category: DrinkCategory): CocktailSummaryResponse =
+    override suspend fun cocktailsByCategory(category: DrinkCategory): CocktailResponse =
         client.get {
             endpoint(
                 "filter.php",
@@ -106,35 +104,36 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByGlass(glass: Glass): CocktailSummaryResponse = client.get {
+    override suspend fun cocktailsByGlass(glass: Glass): CocktailResponse = client.get {
         endpoint(
             "filter.php",
             "g" to glass.strGlass
         )
     }
 
-    override suspend fun fetchRandomCocktail(): CocktailSummaryResponse = client.get {
+    override suspend fun fetchRandomCocktail(): CocktailResponse = client.get {
         endpoint("random.php")
     }
 
-    override suspend fun fetchRandomCocktails(): CocktailSummaryResponse = client.get {
+    override suspend fun fetchRandomCocktails(): CocktailResponse = client.get {
         endpoint("randomselection.php")
     }
 
-    override suspend fun fetchPopularCocktails(): CocktailSummaryResponse = client.get {
+    override suspend fun fetchPopularCocktails(): CocktailResponse = client.get {
         endpoint("popular.php")
     }
 
-    override suspend fun fetchLatestCocktails(): CocktailSummaryResponse = client.get {
+    override suspend fun fetchLatestCocktails(): CocktailResponse = client.get {
         endpoint("latest.php")
     }
 
-    override suspend fun ingredientsByName(query: String): IngredientDetailResponse = client.get {
-        endpoint(
-            "search.php",
-            "i" to query
-        )
-    }
+    override suspend fun fetchIngredientByName(query: String): IngredientDetailResponse =
+        client.get {
+            endpoint(
+                "search.php",
+                "i" to query
+            )
+        }
 
     override suspend fun indexIngredients(): IngredientNameResponse = client.get {
         endpoint(
@@ -143,7 +142,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
         )
     }
 
-    override suspend fun fetchIngredient(id: Int): IngredientDetailResponse = client.get {
+    override suspend fun fetchIngredientById(id: Int): IngredientDetailResponse = client.get {
         endpoint(
             "lookup.php",
             "iid" to id
