@@ -26,6 +26,7 @@ object Deps {
             val compile_sdk = 30
 
             val gradle_plugin = "4.2.0-alpha10"
+            val compose = "1.0.0-alpha02"
 
             val app_compat = "1.2.0"
             val core_ktx = "1.3.1"
@@ -45,6 +46,13 @@ object Deps {
         val core_ktx = "androidx.core:core-ktx:${Versions.Android.core_ktx}"
         val app_compat = "androidx.appcompat:appcompat:${Versions.Android.app_compat}"
         val material = "com.google.android.material:material:${Versions.Android.material}"
+
+        object Compose {
+            val ui = "androidx.compose.ui:ui:${Deps.Versions.Android.compose}"
+            val material = "androidx.compose.material:material:${Deps.Versions.Android.compose}"
+            val ui_tooling = "androidx.ui:ui-tooling:${Deps.Versions.Android.compose}"
+        }
+
         object Lifecycle {
             val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycle}"
             val viewmodel = "android.arch.lifecycle:viewmodel:${Versions.Android.lifecycle}"
