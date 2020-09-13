@@ -24,8 +24,7 @@ CREATE TABLE cocktail(
    strInstructionsFR           TEXT DEFAULT NULL,
    strInstructionsZHHANS       TEXT DEFAULT NULL,
    strInstructionsZHHANT       TEXT DEFAULT NULL,
--- TODO: potentially split off drink metadata from recipe
--- TODO: create separate Ingredient/Measure entity
+-- TODO(https://github.com/ankushg/CocktailApp/issues/3): potentially split off drink recipe
    strIngredient1              TEXT  DEFAULT NULL,
    strIngredient2              TEXT   DEFAULT NULL,
    strIngredient3              TEXT   DEFAULT NULL,
@@ -79,7 +78,7 @@ insertCocktailSummary:
 INSERT OR REPLACE INTO cocktail (idDrink, strDrink, strDrinkThumb)
 VALUES (:idDrink, :strDrink, :strDrinkThumb);
 
--- TODO: index on these columns
+-- TODO(https://github.com/ankushg/CocktailApp/issues/4): index on these columns?
 selectByMulti:
 SELECT * FROM cocktail
 WHERE TRUE
@@ -100,6 +99,4 @@ SELECT * FROM cocktail
 ORDER BY RANDOM()
 LIMIT :limit;
 
--- TODO: search by ingredients
--- - can be made using only provided ingredients
--- - contains every given ingredient
+-- TODO(https://github.com/ankushg/CocktailApp/issues/4): search by ingredients?

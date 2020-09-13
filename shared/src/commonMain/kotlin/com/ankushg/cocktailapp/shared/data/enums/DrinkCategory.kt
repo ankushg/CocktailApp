@@ -5,7 +5,7 @@ package com.ankushg.cocktailapp.shared.data.enums
  *
  * This might break in the future.
  *
- * TODO: add logging to alert when this needs to be updated
+ * TODO(https://github.com/ankushg/CocktailApp/issues/2): add logging to alert when this needs to be updated
  */
 enum class DrinkCategory(val strCategory: String) {
     ORDINARY_DRINK("Ordinary Drink"),

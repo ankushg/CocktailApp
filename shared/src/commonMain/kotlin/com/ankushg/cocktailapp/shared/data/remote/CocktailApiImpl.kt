@@ -23,7 +23,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
     companion object {
         private val baseUrl = "https://www.thecocktaildb.com/api/json/v1/"
 
-        // TODO: replace with real key once I figure out how to store secrets
+        // TODO(https://github.com/ankushg/CocktailApp/issues/1): replace with real API key
         private val developerApiKey = "1"
 
         private fun HttpRequestBuilder.endpoint(path: String, vararg params: Pair<String, Any>) {
