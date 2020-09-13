@@ -73,10 +73,10 @@ kotlin {
         implementation(Deps.KotlinTest.jvm)
         implementation(Deps.KotlinTest.junit)
 
-        implementation(Deps.AndroidXTest.core)
-        implementation(Deps.AndroidXTest.junit)
-        implementation(Deps.AndroidXTest.runner)
-        implementation(Deps.AndroidXTest.rules)
+        implementation(Deps.Android.Test.core)
+        implementation(Deps.Android.Test.junit)
+        implementation(Deps.Android.Test.runner)
+        implementation(Deps.Android.Test.rules)
 
         implementation(Deps.Coroutines.test)
 
@@ -107,11 +107,12 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(Deps.Versions.compile_sdk)
+    compileSdkVersion(Deps.Versions.Android.compile_sdk)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(Deps.Versions.min_sdk)
-        targetSdkVersion(Deps.Versions.target_sdk)
+        minSdkVersion(Deps.Versions.Android.min_sdk)
+        targetSdkVersion(Deps.Versions.Android.target_sdk)
+        
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

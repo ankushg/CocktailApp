@@ -1,13 +1,7 @@
 object Deps {
 
     object Versions {
-        val kotlin = "1.4.0"
-
-        val android_gradle_plugin = "3.6.3"
-        val buildToolsVersion = "29.0.0"
-        val min_sdk = 21
-        val target_sdk = 29
-        val compile_sdk = 29
+        val kotlin = "1.4.10"
 
         val ktlint_gradle_plugin = "9.4.0"
         val ktlint = "0.38.1"
@@ -25,24 +19,49 @@ object Deps {
 
         val junit = "4.13"
 
-        val lifecycle = "2.1.0"
-        val robolectric = "4.3.1"
-        val androidx_test = "1.2.0"
-        val androidx_test_ext = "1.1.1"
+        object Android {
+            val buildToolsVersion = "30.0.0"
+            val min_sdk = 21
+            val target_sdk = 30
+            val compile_sdk = 30
+
+            val gradle_plugin = "4.2.0-alpha10"
+
+            val app_compat = "1.2.0"
+            val core_ktx = "1.3.1"
+            val material = "1.1.0"
+
+            val androidx_test = "1.2.0"
+            val androidx_test_ext = "1.1.2"
+            val espresso = "3.3.0"
+
+            val lifecycle = "2.3.0-alpha07"
+            val robolectric = "4.3.1"
+        }
     }
 
-    val android_gradle_plugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
+    object Android {
+        val gradle_plugin = "com.android.tools.build:gradle:${Versions.Android.gradle_plugin}"
+        val core_ktx = "androidx.core:core-ktx:${Versions.Android.core_ktx}"
+        val app_compat = "androidx.appcompat:appcompat:${Versions.Android.app_compat}"
+        val material = "com.google.android.material:material:${Versions.Android.material}"
+        object Lifecycle {
+            val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.Android.lifecycle}"
+            val viewmodel = "android.arch.lifecycle:viewmodel:${Versions.Android.lifecycle}"
+            val viewmodel_extensions =
+                "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.Android.lifecycle}"
+            val livedata = "android.arch.lifecycle:livedata:${Versions.Android.lifecycle}"
+            val extension = "android.arch.lifecycle:extensions:${Versions.Android.lifecycle}"
+        }
 
-    val app_compat_x = "androidx.appcompat:appcompat:1.1.0"
-    val material_x = "com.google.android.material:material:1.1.0"
-    val core_ktx = "androidx.core:core-ktx:1.2.0"
-    val constraintlayout = "androidx.constraintlayout:constraintlayout:1.1.3"
-    val recyclerView = "androidx.recyclerview:recyclerview:1.1.0"
-    val lifecycle_viewmodel = "android.arch.lifecycle:viewmodel:${Versions.lifecycle}"
-    val lifecycle_viewmodel_extensions =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-    val lifecycle_livedata = "android.arch.lifecycle:livedata:${Versions.lifecycle}"
-    val lifecycle_extension = "android.arch.lifecycle:extensions:${Versions.lifecycle}"
+        object Test {
+            val core = "androidx.test:core:${Versions.Android.androidx_test}"
+            val junit = "androidx.test.ext:junit:${Versions.Android.androidx_test_ext}"
+            val runner = "androidx.test:runner:${Versions.Android.androidx_test}"
+            val rules = "androidx.test:rules:${Versions.Android.androidx_test}"
+            val espresso = "androidx.test.espresso:espresso-core:${Versions.Android.espresso}"
+        }
+    }
 
     val junit = "junit:junit:${Versions.junit}"
     val stately = "co.touchlab:stately-common:${Versions.stately}"
@@ -50,7 +69,7 @@ object Deps {
     val cocoapodsext = "co.touchlab:kotlinnativecocoapods:${Versions.cocoapodsext}"
     val kermit = "co.touchlab:kermit:${Versions.kermit}"
     val karmok = "co.touchlab:karmok-library:${Versions.karmok}"
-    val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
+    val robolectric = "org.robolectric:robolectric:${Versions.Android.robolectric}"
 
     // Koin
     val koinCore = "org.koin:koin-core:${Versions.koin}"
@@ -61,13 +80,6 @@ object Deps {
         "com.russhwolf:multiplatform-settings:${Versions.multiplatformSettings}"
     val multiplatformSettingsTest =
         "com.russhwolf:multiplatform-settings-test:${Versions.multiplatformSettings}"
-
-    object AndroidXTest {
-        val core = "androidx.test:core:${Versions.androidx_test}"
-        val junit = "androidx.test.ext:junit:${Versions.androidx_test_ext}"
-        val runner = "androidx.test:runner:${Versions.androidx_test}"
-        val rules = "androidx.test:rules:${Versions.androidx_test}"
-    }
 
     object KotlinTest {
         val common = "org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}"
