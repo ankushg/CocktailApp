@@ -23,7 +23,7 @@ fun initKoinIos(
 ): KoinApplication = initKoin(
     module {
         single<Settings> { AppleSettings(userDefaults) }
-        single { appInfo }
+        single<AppInfo> { appInfo }
         single { doOnStartup }
     }
 )
@@ -39,7 +39,7 @@ actual val platformModule = module {
     val baseKermit = Kermit(NSLogLogger())
         .withTag("CocktailApp")
 
-    factory { (tag: String?) ->
+    factory<Kermit> { (tag: String?) ->
         if (tag != null) baseKermit.withTag(tag) else baseKermit
     }
 }

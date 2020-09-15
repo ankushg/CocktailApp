@@ -1,5 +1,6 @@
 package com.ankushg.cocktailapp.shared
 
+import android.content.SharedPreferences
 import co.touchlab.kermit.Kermit
 import co.touchlab.kermit.LogcatLogger
 import com.ankushg.cocktailapp.CocktailsDb
@@ -13,16 +14,18 @@ import org.koin.dsl.module
 actual val platformModule: Module = module {
     single<SqlDriver> {
         AndroidSqliteDriver(
-            CocktailsDb.Schema,
-            get(),
-            "CocktailDb"
+            schema = CocktailsDb.Schema,
+            context = get(),
+            name = "CocktailDb"
         )
     }
 
     single<Settings> {
-        AndroidSettings(get())
+        AndroidSettings(delegate = get<SharedPreferences>())
     }
 
-    val baseKermit = Kermit(LogcatLogger()).withTag("KampKit")
-    factory { (tag: String?) -> if (tag != null) baseKermit.withTag(tag) else baseKermit }
+    val baseKermit = Kermit(LogcatLogger())
+        .withTag("CocktailApp")
+
+    factory<Kermit> { (tag: String?) -> if (tag != null) baseKermit.withTag(tag) else baseKermit }
 }
