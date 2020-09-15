@@ -2,37 +2,17 @@ package com.ankushg.cocktailapp.android
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Text
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.setContent
-import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.ui.CocktailAppTheme
+import com.ankushg.cocktailapp.android.ui.MainAppView
+import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             CocktailAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                MainAppView(onBackPressedDispatcher)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CocktailAppTheme {
-        Greeting("Android")
     }
 }
