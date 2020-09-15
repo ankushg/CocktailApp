@@ -5,13 +5,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(Deps.Versions.Android.compile_sdk)
-    buildToolsVersion(Deps.Versions.Android.buildToolsVersion)
+    compileSdkVersion(Deps.Android.Sdk.compile_version)
 
     defaultConfig {
         applicationId = "com.ankushg.cocktailapp.android"
-        minSdkVersion(Deps.Versions.Android.min_sdk)
-        targetSdkVersion(Deps.Versions.Android.target_sdk)
+        minSdkVersion(Deps.Android.Sdk.min_version)
+        targetSdkVersion(Deps.Android.Sdk.target_version)
 
         versionCode = 1
         versionName = "1.0"
@@ -30,7 +29,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 
@@ -40,13 +38,13 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = ".8"
+        jvmTarget = "1.8"
         useIR = true
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Deps.Versions.Android.compose
-        kotlinCompilerVersion = Deps.Versions.kotlin
+        kotlinCompilerExtensionVersion = Deps.Android.Compose.version
+        kotlinCompilerVersion = Deps.Kotlin.version
     }
 
 }
@@ -54,17 +52,23 @@ android {
 dependencies {
     implementation(project(":shared"))
 
-    implementation(Deps.Android.core_ktx)
-    implementation(Deps.Android.app_compat)
-    implementation(Deps.Android.material)
+    implementation(Deps.Android.Core.ktx)
+    implementation(Deps.Android.AppCompat.appcompat)
 
-    implementation(Deps.Android.Compose.ui)
+    implementation(Deps.Android.Compose.runtime)
+    implementation(Deps.Android.Compose.foundation)
+    implementation(Deps.Android.Compose.layout)
     implementation(Deps.Android.Compose.material)
+    implementation(Deps.Android.Compose.animation)
+    implementation(Deps.Android.Compose.iconsExtended)
     implementation(Deps.Android.Compose.ui_tooling)
+
+
+    implementation(Deps.Android.Accompanist.coil)
 
     implementation(Deps.Android.Lifecycle.runtime)
 
-    testImplementation(Deps.junit)
-    androidTestImplementation(Deps.Android.Test.junit)
-    androidTestImplementation(Deps.Android.Test.espresso)
+    testImplementation(Deps.Junit.junit)
+    androidTestImplementation(Deps.Android.Test.Ext.junit)
+    androidTestImplementation(Deps.Android.Espresso.core)
 }

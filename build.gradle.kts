@@ -5,16 +5,16 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath(kotlin("gradle-plugin", Deps.Versions.kotlin))
-        classpath(Deps.Android.gradle_plugin)
+        classpath(kotlin("gradle-plugin", Deps.Kotlin.version))
+        classpath(Deps.Android.GradlePlugin.plugin)
         classpath(Deps.SqlDelight.gradle)
-        classpath(Deps.cocoapodsext)
-        classpath("org.jetbrains.kotlin:kotlin-serialization:${Deps.Versions.kotlin}")
+        classpath(Deps.CocoaPodsExt.cocoapodsext)
+        classpath("org.jetbrains.kotlin:kotlin-serialization:${Deps.Kotlin.version}")
     }
 }
 
 plugins {
-    id("org.jlleitschuh.gradle.ktlint") version Deps.Versions.ktlint_gradle_plugin
+    id("org.jlleitschuh.gradle.ktlint") version Deps.Ktlint.GradlePlugin.version
 }
 
 allprojects {
@@ -33,7 +33,8 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     ktlint {
-        version.set(Deps.Versions.ktlint)
+        version.set(Deps.Ktlint.version)
+
         enableExperimentalRules.set(true)
         verbose.set(true)
         filter {
