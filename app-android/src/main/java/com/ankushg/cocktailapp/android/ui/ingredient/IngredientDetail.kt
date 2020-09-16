@@ -21,8 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.strThumbnailUrl
+import com.ankushg.cocktailapp.android.placeholders.cocktails.strImageUrl
 import com.ankushg.cocktailapp.android.placeholders.cocktails.vodka
+import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
 import com.ankushg.cocktailapp.shared.local.Ingredient
@@ -32,12 +33,23 @@ fun IngredientDescription(
     strIngredient: String,
     upPress: () -> Unit
 ) {
+    // TODO: get viewModel, init with strIngredient
     val ingredient = vodka
 
+    IngredientDescription(
+        ingredient = ingredient,
+        upPress = upPress
+    )
+}
 
+@Composable
+private fun IngredientDescription(
+    ingredient: Ingredient,
+    upPress: () -> Unit
+) {
     Surface {
         ScrollableColumn {
-            IngredientDescriptionHeader(ingredient, upPress)
+            IngredientDetailTopBar(ingredient, upPress)
             IngredientInformation(ingredient)
             IngredientDescriptionText(ingredient)
         }
@@ -45,23 +57,33 @@ fun IngredientDescription(
 }
 
 @Composable
-private fun IngredientDescriptionText(ingredient: Ingredient) {
-    ingredient.strDescription?.let { description ->
-        Text(
-            text = description,
-            style = MaterialTheme.typography.body1,
+private fun IngredientDetailTopBar(ingredient: Ingredient, upPress: () -> Unit) {
+    Stack {
+        NetworkImage(
+            url = ingredient.strImageUrl,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    16.dp
-                )
+                // .scrim(colors = listOf(Color(0x80000000), Color(0x33000000)))
+                .aspectRatio(4f / 3f)
         )
+        TopAppBar(
+            backgroundColor = Color.Transparent,
+            elevation = 0.dp,
+            contentColor = Color.White, // always white as image has dark scrim
+            modifier = Modifier.statusBarsPadding()
+        ) {
+            IconButton(onClick = upPress) {
+                Icon(
+                    asset = Icons.Rounded.ArrowBack
+                )
+            }
+            Spacer(modifier = Modifier.weight(1f))
+        }
     }
 }
 
 @Composable
 private fun IngredientInformation(ingredient: Ingredient) {
-
     ingredient.strType?.let { type ->
         Text(
             text = type.toUpperCase(),
@@ -126,36 +148,27 @@ private fun IngredientInformation(ingredient: Ingredient) {
 }
 
 @Composable
-private fun IngredientDescriptionHeader(ingredient: Ingredient, upPress: () -> Unit) {
-    Stack {
-        NetworkImage(
-            url = ingredient.strThumbnailUrl,
+private fun IngredientDescriptionText(ingredient: Ingredient) {
+    ingredient.strDescription?.let { description ->
+        Text(
+            text = description,
+            style = MaterialTheme.typography.body2,
             modifier = Modifier
                 .fillMaxWidth()
-                // .scrim(colors = listOf(Color(0x80000000), Color(0x33000000)))
-                .aspectRatio(4f / 3f)
-        )
-        TopAppBar(
-            backgroundColor = Color.Transparent,
-            elevation = 0.dp,
-            contentColor = Color.White, // always white as image has dark scrim
-            modifier = Modifier.statusBarsPadding()
-        ) {
-            IconButton(onClick = upPress) {
-                Icon(
-                    asset = Icons.Rounded.ArrowBack
+                .padding(
+                    16.dp
                 )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-        }
+        )
     }
 }
 
 @Preview("Ingredient Detail")
 @Composable
 private fun IngredientDetailPreview() {
-    IngredientDescription(
-        strIngredient = "Vodka",
-        upPress = { }
-    )
+    CocktailAppTheme {
+        IngredientDescription(
+            ingredient = vodka,
+            upPress = { }
+        )
+    }
 }

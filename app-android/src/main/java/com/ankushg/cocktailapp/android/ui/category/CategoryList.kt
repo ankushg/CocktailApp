@@ -23,7 +23,7 @@ fun CategoryList(
 
 @Preview(showBackground = true)
 @Composable
-fun CategoryListPreview() {
+private fun CategoryListPreview() {
     CocktailAppTheme {
         CategoryList(
             allDrinkCategories,

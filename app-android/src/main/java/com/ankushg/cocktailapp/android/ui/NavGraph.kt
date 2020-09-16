@@ -19,7 +19,7 @@ sealed class Destination : Parcelable {
 
     @Immutable
     @Parcelize
-    data class DrinkDetails(val strDrink: String) : Destination()
+    data class DrinkDetails(val idDrink: Long) : Destination()
 
     @Immutable
     @Parcelize
@@ -34,8 +34,8 @@ class Actions(navigator: Navigator<Destination>) {
         navigator.navigate(Destination.DrinksByCategory(category))
     }
 
-    val selectDrink: (String) -> Unit = { strDrink ->
-        navigator.navigate(Destination.DrinkDetails(strDrink))
+    val selectDrink: (Long) -> Unit = { idDrink ->
+        navigator.navigate(Destination.DrinkDetails(idDrink))
     }
 
     val selectIngredient: (String) -> Unit = { strIngredient ->

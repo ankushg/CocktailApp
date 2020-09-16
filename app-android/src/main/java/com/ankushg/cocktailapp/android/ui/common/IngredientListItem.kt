@@ -2,75 +2,61 @@ package com.ankushg.cocktailapp.android.ui.common
 
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredHeight
-import androidx.compose.foundation.layout.preferredSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.Card
+import androidx.compose.material.ListItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.asIngredientImageUrl
+import com.ankushg.cocktailapp.android.placeholders.cocktails.RecipeIngredient
+import com.ankushg.cocktailapp.android.placeholders.cocktails.strSmallImageUrl
+import com.ankushg.cocktailapp.android.placeholders.cocktails.vodka
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
+import com.ankushg.cocktailapp.shared.local.Ingredient
+
+@Composable
+fun RecipeIngredientListItem(
+    recipeIngredient: RecipeIngredient,
+    onClick: () -> Unit,
+) {
+    IngredientListItem(
+        strThumbnailUrl = recipeIngredient.strThumbnailUrl,
+        strIngredient = recipeIngredient.strIngredient,
+        onClick = onClick,
+        quantityString = recipeIngredient.strMeasure
+    )
+}
 
 @Composable
 fun IngredientListItem(
+    ingredient: Ingredient,
+    onClick: () -> Unit
+) {
+    IngredientListItem(
+        strThumbnailUrl = ingredient.strSmallImageUrl,
+        strIngredient = ingredient.strIngredient,
+        onClick = onClick
+    )
+}
+
+@Composable
+private fun IngredientListItem(
+    strThumbnailUrl: String,
     strIngredient: String,
     onClick: () -> Unit,
-    quantityString: String? = null,
-    modifier: Modifier = Modifier.fillMaxWidth().preferredHeight(80.dp),
-    shape: Shape = RectangleShape,
-    elevation: Dp = CocktailAppTheme.elevations.card,
-    titleStyle: TextStyle = MaterialTheme.typography.subtitle1,
-    iconSize: Dp = 80.dp
+    quantityString: String? = null
 ) {
-    Surface(
-        elevation = elevation,
-        shape = shape,
-        modifier = modifier
-            .fillMaxWidth()
-    ) {
-        Row(
-            modifier = Modifier
-                .clickable(onClick = onClick)
-                .fillMaxWidth()
-        ) {
-            NetworkImage(
-                url = strIngredient.asIngredientImageUrl(),
-                modifier = Modifier.preferredSize(iconSize)
-            )
-            Column {
-                Text(
-                    text = strIngredient,
-                    style = titleStyle,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(bottom = 4.dp)
-                )
-                if (quantityString != null) {
-                    Text(
-                        text = quantityString,
-                        color = MaterialTheme.colors.secondary,
-                        style = MaterialTheme.typography.caption,
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .weight(1f)
-                    )
+    Card {
+        ListItem(
+            modifier = Modifier.clickable(onClick = onClick),
+            icon = strThumbnailUrl?.let { thumbnailUrl ->
+                {
+                    NetworkImage(url = thumbnailUrl)
                 }
-            }
-        }
+            },
+            text = { Text(strIngredient) },
+            secondaryText = quantityString?.let { { Text(it) } }
+        )
     }
 }
 
@@ -98,8 +84,7 @@ private fun IngredientListItemPreview(darkTheme: Boolean, withQuantity: Boolean 
 
     CocktailAppTheme(darkTheme) {
         IngredientListItem(
-            strIngredient = "Tequila",
-            quantityString = quantityString,
+            ingredient = vodka,
             onClick = {}
         )
     }

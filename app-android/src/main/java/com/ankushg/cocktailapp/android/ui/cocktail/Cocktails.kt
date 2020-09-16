@@ -23,7 +23,7 @@ fun CocktailList(
 
 @Preview(showBackground = true)
 @Composable
-fun SummaryPreview() {
+private fun SummaryPreview() {
     CocktailAppTheme {
         CocktailList(
             cocktails = cocktailSummaries,

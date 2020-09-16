@@ -31,9 +31,16 @@ private fun buildIngredient(
     )
 }
 
-fun String.asIngredientImageUrl() =
-    "https://www.thecocktaildb.com/images/ingredients/${this}.png"
+fun String.asIngredientImageUrl(sizeModifier: String? = null) =
+    "https://www.thecocktaildb.com/images/ingredients/${this}${sizeModifier ?: ""}.png"
 
-val Ingredient.strThumbnailUrl
+fun String.asSmallIngredientImageUrl() = asIngredientImageUrl("-Small")
+
+val Ingredient.strImageUrl
     get() = strIngredient.asIngredientImageUrl()
 
+val Ingredient.strSmallImageUrl
+    get() = strIngredient.asIngredientImageUrl("-Small")
+
+val Ingredient.strMediumImageUrl
+    get() = strIngredient.asIngredientImageUrl("-Medium")

@@ -184,26 +184,60 @@ internal fun buildCocktail(
 
 val cocktailSummaries = List(10) { margaritaSummary }
 
+val Cocktail.strSmallUrl
+    get() = "$strDrinkThumb/preview"
+
 data class RecipeIngredient(
+    val strThumbnailUrl: String,
     val strIngredient: String,
     val strMeasure: String? = null
 )
 
 val Cocktail.recipeIngredients: List<RecipeIngredient>
     get() = listOfNotNull(
-        strIngredient1?.let { RecipeIngredient(it, strMeasure1) },
-        strIngredient2?.let { RecipeIngredient(it, strMeasure2) },
-        strIngredient3?.let { RecipeIngredient(it, strMeasure3) },
-        strIngredient4?.let { RecipeIngredient(it, strMeasure4) },
-        strIngredient5?.let { RecipeIngredient(it, strMeasure5) },
-        strIngredient6?.let { RecipeIngredient(it, strMeasure6) },
-        strIngredient7?.let { RecipeIngredient(it, strMeasure7) },
-        strIngredient8?.let { RecipeIngredient(it, strMeasure8) },
-        strIngredient9?.let { RecipeIngredient(it, strMeasure9) },
-        strIngredient10?.let { RecipeIngredient(it, strMeasure10) },
-        strIngredient11?.let { RecipeIngredient(it, strMeasure11) },
-        strIngredient12?.let { RecipeIngredient(it, strMeasure12) },
-        strIngredient13?.let { RecipeIngredient(it, strMeasure13) },
-        strIngredient14?.let { RecipeIngredient(it, strMeasure14) },
-        strIngredient15?.let { RecipeIngredient(it, strMeasure15) }
+        strIngredient1?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure1)
+        },
+        strIngredient2?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure2)
+        },
+        strIngredient3?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure3)
+        },
+        strIngredient4?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure4)
+        },
+        strIngredient5?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure5)
+        },
+        strIngredient6?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure6)
+        },
+        strIngredient7?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure7)
+        },
+        strIngredient8?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure8)
+        },
+        strIngredient9?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure9)
+        },
+        strIngredient10?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure10)
+        },
+        strIngredient11?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure11)
+        },
+        strIngredient12?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure12)
+        },
+        strIngredient13?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure13)
+        },
+        strIngredient14?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure14)
+        },
+        strIngredient15?.let {
+            RecipeIngredient(it, it.asSmallIngredientImageUrl(), strMeasure15)
+        }
     )

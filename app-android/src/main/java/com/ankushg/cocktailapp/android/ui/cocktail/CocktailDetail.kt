@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
 import com.ankushg.cocktailapp.android.placeholders.cocktails.margarita
 import com.ankushg.cocktailapp.android.placeholders.cocktails.recipeIngredients
-import com.ankushg.cocktailapp.android.ui.common.IngredientListItem
+import com.ankushg.cocktailapp.android.ui.common.RecipeIngredientListItem
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
@@ -32,7 +32,23 @@ import com.ankushg.cocktailapp.shared.local.Cocktail
 
 @Composable
 fun CocktailDescription(
-    strDrink: String,
+    idDrink: Long,
+    selectIngredient: (String) -> Unit,
+    upPress: () -> Unit
+) {
+    // TODO: get viewModel, init with idDrink
+    val cocktail = margarita
+
+    CocktailDescription(
+        cocktail = cocktail,
+        selectIngredient = selectIngredient,
+        upPress = upPress
+    )
+}
+
+@Composable
+fun CocktailDescription(
+    cocktail: Cocktail,
     selectIngredient: (String) -> Unit,
     upPress: () -> Unit
 ) {
@@ -44,6 +60,7 @@ fun CocktailDescription(
             CocktailInformation(cocktail)
             CocktailRecipeBody(cocktail)
             CocktailIngredients(cocktail, selectIngredient)
+            CocktailFooter(cocktail)
         }
     }
 }
@@ -133,14 +150,19 @@ private fun CocktailIngredients(
     val ingredients = cocktail.recipeIngredients
 
     ingredients.forEach { ingredient ->
-        IngredientListItem(
-            strIngredient = ingredient.strIngredient,
+        RecipeIngredientListItem(
+            recipeIngredient = ingredient,
             onClick = {
                 selectIngredient(ingredient.strIngredient)
-            },
-            quantityString = ingredient.strMeasure,
-            iconSize = 80.dp
+            }
         )
+    }
+}
+
+@Composable
+private fun CocktailFooter(cocktail: Cocktail) {
+    cocktail.strGlass?.strGlass?.let { glass ->
+        Text(text = "Serve: $glass")
     }
 }
 
@@ -149,7 +171,7 @@ private fun CocktailIngredients(
 private fun CocktailDetailsPreview() {
     CocktailAppTheme {
         CocktailDescription(
-            strDrink = "Margarita",
+            cocktail = margarita,
             selectIngredient = { },
             upPress = { }
         )
