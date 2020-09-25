@@ -1,9 +1,9 @@
-package com.ankushg.cocktailapp.shared.data.local.mappers
+package com.ankushg.cocktailapp.shared.local.mappers
 
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.local.Cocktail
+import com.ankushg.cocktailapp.shared.local.Cocktail
 import com.squareup.sqldelight.ColumnAdapter
 
 internal val drinkCategoryAdapter = object : ColumnAdapter<DrinkCategory, String> {

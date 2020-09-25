@@ -1,11 +1,11 @@
-package com.ankushg.cocktailapp.shared.data.remote
+package com.ankushg.cocktailapp.shared.remote
 
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.remote.models.CocktailResponse
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientDetailResponse
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientNameResponse
+import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
+import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
+import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse
 
 /**
  * [Documentation](https://www.thecocktaildb.com/api.php)
@@ -17,7 +17,7 @@ interface CocktailApi {
      *
      * https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
      */
-    suspend fun fetchFullCocktailDetails(id: Int): CocktailResponse
+    suspend fun fetchFullCocktailDetails(id: Long): CocktailResponse
 
     /**
      * Search cocktail by name

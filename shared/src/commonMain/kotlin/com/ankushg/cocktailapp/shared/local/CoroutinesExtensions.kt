@@ -1,4 +1,4 @@
-package com.ankushg.cocktailapp.shared.data.local
+package com.ankushg.cocktailapp.shared.local
 
 import co.touchlab.stately.freeze
 import com.squareup.sqldelight.Query

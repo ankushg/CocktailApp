@@ -1,13 +1,13 @@
-package com.ankushg.cocktailapp.shared.data.remote
+package com.ankushg.cocktailapp.shared.remote
 
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.remote.models.CocktailResponse
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientDetailResponse
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientNameResponse
+import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
+import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
+import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
@@ -56,7 +56,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
         ensureNeverFrozen()
     }
 
-    override suspend fun fetchFullCocktailDetails(id: Int): CocktailResponse = client.get {
+    override suspend fun fetchFullCocktailDetails(id: Long): CocktailResponse = client.get {
         log.d { "Querying API for cocktail with ID $id" }
 
         endpoint(

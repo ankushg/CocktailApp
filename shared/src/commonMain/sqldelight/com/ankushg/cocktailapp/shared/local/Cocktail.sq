@@ -10,8 +10,8 @@ CREATE TABLE cocktail(
    strDrinkES                  TEXT DEFAULT NULL,
    strDrinkDE                  TEXT DEFAULT NULL,
    strDrinkFR                  TEXT DEFAULT NULL,
-   strDrinkZHHANS              TEXT DEFAULT NULL,
-   strDrinkZHHANT              TEXT DEFAULT NULL,
+   strDrinkZH_HANS              TEXT DEFAULT NULL,
+   strDrinkZH_HANT              TEXT DEFAULT NULL,
    strTags                     TEXT DEFAULT NULL,
    strVideo                    TEXT DEFAULT NULL,
    strCategory                 TEXT AS DrinkCategory  DEFAULT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE cocktail(
    strInstructionsES           TEXT DEFAULT NULL,
    strInstructionsDE           TEXT  DEFAULT NULL,
    strInstructionsFR           TEXT DEFAULT NULL,
-   strInstructionsZHHANS       TEXT DEFAULT NULL,
-   strInstructionsZHHANT       TEXT DEFAULT NULL,
+   strInstructionsZH_HANS       TEXT DEFAULT NULL,
+   strInstructionsZH_HANT       TEXT DEFAULT NULL,
 -- TODO(https://github.com/ankushg/CocktailApp/issues/3): potentially split off drink recipe
    strIngredient1              TEXT  DEFAULT NULL,
    strIngredient2              TEXT   DEFAULT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE cocktail(
    strMeasure13                TEXT DEFAULT NULL,
    strMeasure14                TEXT DEFAULT NULL,
    strMeasure15                TEXT DEFAULT NULL,
-   strCreativeCommonsConfirmed TEXT  DEFAULT NULL,
+   strCreativeCommonsConfirmed TEXT DEFAULT NULL,
    dateModified                TEXT DEFAULT NULL
 );
 

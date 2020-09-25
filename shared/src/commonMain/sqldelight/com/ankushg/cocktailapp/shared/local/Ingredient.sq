@@ -1,12 +1,10 @@
-import com.ankushg.cocktailapp.shared.data.enums.IngredientSummary;
-
 CREATE TABLE ingredient (
     strIngredient TEXT NOT NULL PRIMARY KEY,
     idIngredient INTEGER DEFAULT NULL,
     strDescription TEXT DEFAULT NULL,
     strType TEXT DEFAULT NULL,
     strAlcohol TEXT DEFAULT NULL,
-    strAbv INTEGER DEFAULT NULL
+    strABV INTEGER DEFAULT NULL
 );
 
 selectAll:

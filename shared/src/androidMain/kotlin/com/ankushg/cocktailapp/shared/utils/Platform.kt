@@ -1,4 +1,4 @@
-package com.ankushg.cocktailapp.shared
+package com.ankushg.cocktailapp.shared.utils
 
 actual fun currentTimeMillis(): Long = System.currentTimeMillis()
 

@@ -2,9 +2,9 @@
     IngredientSerializer::class
 )
 
-package com.ankushg.cocktailapp.shared.data.remote.models
+package com.ankushg.cocktailapp.shared.remote.models
 
-import com.ankushg.cocktailapp.shared.data.local.Ingredient
+import com.ankushg.cocktailapp.shared.local.Ingredient
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
@@ -17,7 +17,7 @@ import kotlinx.serialization.UseSerializers
  */
 @OptIn(ExperimentalSerializationApi::class)
 @Serializer(forClass = Ingredient::class)
-object IngredientSerializer
+private object IngredientSerializer
 
 /**
  * TheCocktailDB's weird lightweight representation of an Ingredient.

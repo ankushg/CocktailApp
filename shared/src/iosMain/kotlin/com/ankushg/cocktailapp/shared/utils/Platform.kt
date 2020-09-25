@@ -1,4 +1,4 @@
-package com.ankushg.cocktailapp.shared
+package com.ankushg.cocktailapp.shared.utils
 
 import platform.Foundation.NSDate
 import platform.Foundation.timeIntervalSince1970

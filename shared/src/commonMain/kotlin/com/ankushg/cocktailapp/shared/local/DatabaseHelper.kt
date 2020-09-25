@@ -1,12 +1,12 @@
-package com.ankushg.cocktailapp.shared.data.local
+package com.ankushg.cocktailapp.shared.local
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.local.mappers.cocktailAdapter
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientSummary
+import com.ankushg.cocktailapp.shared.local.mappers.cocktailAdapter
+import com.ankushg.cocktailapp.shared.remote.models.IngredientSummary
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -19,46 +19,6 @@ class DatabaseHelper(
     private val backgroundDispatcher: CoroutineDispatcher
 ) {
     private val dbRef: CocktailsDb = CocktailsDb(sqlDriver, cocktailAdapter)
-
-    // region Breeds
-    fun selectAllBreeds(): Flow<List<Breed>> =
-        dbRef.breedQueries
-            .selectAll()
-            .asFlow()
-            .mapToList()
-            .flowOn(backgroundDispatcher)
-
-    suspend fun insertBreeds(breedNames: List<String>) {
-        log.d { "Inserting ${breedNames.size} breeds into database" }
-
-        dbRef.transactionWithContext(backgroundDispatcher) {
-            breedNames.forEach { name ->
-                dbRef.breedQueries.insertBreed(null, name, 0)
-            }
-        }
-    }
-
-    fun selectBreedsById(id: Long): Flow<List<Breed>> =
-        dbRef.breedQueries
-            .selectById(id)
-            .asFlow()
-            .mapToList()
-            .flowOn(backgroundDispatcher)
-
-    suspend fun deleteAllBreeds() {
-        log.i { "Database Cleared" }
-        dbRef.transactionWithContext(backgroundDispatcher) {
-            dbRef.breedQueries.deleteAll()
-        }
-    }
-
-    suspend fun updateBreedFavoriteStatus(breedId: Long, favorite: Boolean) {
-        log.i { "Breed $breedId: Favorited $favorite" }
-        dbRef.transactionWithContext(backgroundDispatcher) {
-            dbRef.breedQueries.updateFavorite(if (favorite) 1L else 0L, breedId)
-        }
-    }
-    // endregion
 
     // region Ingredients
     fun selectAllIngredients(): Flow<List<Ingredient>> {
@@ -117,7 +77,20 @@ class DatabaseHelper(
             }
     }
 
-    fun selectCocktailByName(name: String): Flow<Cocktail> {
+    fun selectCocktailById(id: Long): Flow<Cocktail> {
+        log.d { "Querying DB for cocktail: $id" }
+
+        return dbRef.cocktailQueries
+            .selectById(id)
+            .asFlow()
+            .mapToOne()
+            .flowOn(backgroundDispatcher)
+            .onEach {
+                log.d { "Emitting updated cocktail $id from db: $it" }
+            }
+    }
+
+    fun selectCocktailsByName(name: String): Flow<Cocktail> {
         log.d { "Querying DB for cocktail: $name" }
 
         return dbRef.cocktailQueries

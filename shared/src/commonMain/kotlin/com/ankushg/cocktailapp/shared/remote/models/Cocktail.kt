@@ -2,9 +2,9 @@
     CocktailSerializer::class,
 )
 
-package com.ankushg.cocktailapp.shared.data.remote.models
+package com.ankushg.cocktailapp.shared.remote.models
 
-import com.ankushg.cocktailapp.shared.data.local.Cocktail
+import com.ankushg.cocktailapp.shared.local.Cocktail
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
@@ -20,4 +20,5 @@ import kotlinx.serialization.UseSerializers
 object CocktailSerializer
 
 @Serializable
-data class CocktailResponse(val drinks: List<Cocktail>)
+data class
+CocktailResponse(val drinks: List<Cocktail>)
