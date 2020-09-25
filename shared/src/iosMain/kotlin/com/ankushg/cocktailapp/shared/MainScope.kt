@@ -1,17 +1,21 @@
 package com.ankushg.cocktailapp.shared
 
 import co.touchlab.kermit.Kermit
+import com.ankushg.cocktailapp.shared.utils.printThrowable
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlin.coroutines.CoroutineContext
 
-class MainScope(private val mainContext: CoroutineContext, private val log: Kermit) :
-    CoroutineScope {
+class MainScope(
+    private val mainContext: CoroutineContext,
+    private val log: Kermit
+) : CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = mainContext + job + exceptionHandler
 
     internal val job = SupervisorJob()
+
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         printThrowable(throwable)
         showError(throwable)
