@@ -21,6 +21,9 @@ class CommonAppViewModel(
         // TODO: use a better initial state
         private val initialState = ViewState.CategoryList(allDrinkCategories)
     }
+
+    private val navigator = Navigator<ViewState>()
+
     private val mutableStateFlow: MutableStateFlow<ViewState?> = MutableStateFlow(null)
     override val stateFlow: CStateFlow<ViewState?>
         get() = mutableStateFlow.wrap(MainScope()) // TODO: don't necessarily use main scope
@@ -47,6 +50,11 @@ class CommonAppViewModel(
     private fun emitState(newState: ViewState?) {
         if (newState != null && newState != mutableStateFlow.value) {
             mutableStateFlow.value = newState
+            navigator.navigate(newState)
+
+            check(navigator.current == stateFlow.value) {
+                "Navigator and stateFlow have mismatching states!"
+            }
         }
     }
 
@@ -63,10 +71,11 @@ class CommonAppViewModel(
     }
 
     private fun processUpPress(): ViewState? {
-        return null // TODO: nav
+        return navigator.back()
     }
 
     private fun processBackPress(): ViewState? {
-        return null // TODO: nav
+        // TODO: allow users to back all the way out of the app!
+        return navigator.back()
     }
 }
