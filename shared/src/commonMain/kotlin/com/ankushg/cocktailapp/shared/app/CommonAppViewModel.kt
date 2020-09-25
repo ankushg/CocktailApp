@@ -7,15 +7,20 @@ import com.ankushg.cocktailapp.shared.data.placeholders.cocktailSummaries
 import com.ankushg.cocktailapp.shared.data.placeholders.margarita
 import com.ankushg.cocktailapp.shared.data.placeholders.vodka
 import com.ankushg.cocktailapp.shared.domain.entities.recipeIngredients
+import com.ankushg.cocktailapp.shared.injectWith
 import com.ankushg.cocktailapp.shared.utils.CStateFlow
 import com.ankushg.cocktailapp.shared.utils.Navigator
 import com.ankushg.cocktailapp.shared.utils.wrap
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-class CommonAppViewModel(
-    private val log: Kermit
-) : AppViewModel {
+class CommonAppViewModel : AppViewModel, KoinComponent {
+    private val log: Kermit by injectWith("CommonAppViewModel")
 
     companion object {
         // TODO: use a better initial state

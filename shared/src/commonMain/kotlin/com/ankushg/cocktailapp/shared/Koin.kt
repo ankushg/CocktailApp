@@ -44,14 +44,16 @@ private val commonSharedModule = module {
     factory<Kermit> { (tag: String?) -> if (tag != null) baseKermit.withTag(tag) else baseKermit }
 
     single<AppViewModel> {
-        CommonAppViewModel(
-            log = getWith("CommonAppViewModel")
-        )
+        CommonAppViewModel()
     }
 }
 
 internal inline fun <reified T> Scope.getWith(vararg params: Any?): T {
     return get(parameters = { parametersOf(*params) })
+}
+
+internal inline fun <reified T> KoinComponent.injectWith(vararg params: Any?): Lazy<T> {
+    return inject(parameters = { parametersOf(*params) })
 }
 
 internal expect fun buildBaseKermit(): Kermit
