@@ -59,4 +59,19 @@ fun MainAppView(backDispatcher: OnBackPressedDispatcher) {
             }
         }
     }
+private class ActionRouter(val appViewModel: AppViewModel) {
+    val onCategoryClicked = { category: DrinkCategory ->
+        appViewModel.submitAction(Action.SelectCategory(category))
+    }
+
+    val onDrinkClicked = { drinkId: Long ->
+        appViewModel.submitAction(Action.SelectDrink(drinkId))
+    }
+
+    val onIngredientClicked = { ingredientId: String ->
+        appViewModel.submitAction(Action.SelectIngredient(ingredientId))
+    }
+
+    val onUpPressed = { appViewModel.submitAction(Action.UpPress) }
+    val onBackPressed = { appViewModel.submitAction(Action.BackPress) }
 }
