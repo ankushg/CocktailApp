@@ -42,6 +42,10 @@ private val commonSharedModule = module {
     val baseKermit = buildBaseKermit()
 
     factory<Kermit> { (tag: String?) -> if (tag != null) baseKermit.withTag(tag) else baseKermit }
+
+    single<AppViewModel> {
+        CommonAppViewModel(
+            log = getWith("CommonAppViewModel")
         )
     }
 }
