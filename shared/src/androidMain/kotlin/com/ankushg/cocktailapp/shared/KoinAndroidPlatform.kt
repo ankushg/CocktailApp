@@ -1,31 +1,30 @@
 package com.ankushg.cocktailapp.shared
 
-import android.content.SharedPreferences
 import co.touchlab.kermit.Kermit
 import co.touchlab.kermit.LogcatLogger
-import com.ankushg.cocktailapp.CocktailsDb
-import com.russhwolf.settings.AndroidSettings
-import com.russhwolf.settings.Settings
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
+import org.koin.core.KoinApplication
 import org.koin.core.module.Module
+import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-actual val platformModule: Module = module {
-    single<SqlDriver> {
-        AndroidSqliteDriver(
-            schema = CocktailsDb.Schema,
-            context = get(),
-            name = "CocktailDb"
-        )
-    }
+fun initKoinAndroid(
+    appModule: Module,
+    doOnStartup: (() -> Unit)? = null,
+    appDeclaration: KoinAppDeclaration
+): KoinApplication = initKoin(
+    listOf(appModule) + buildAndroidKoinModule(doOnStartup),
+    appDeclaration
+)
 
-    single<Settings> {
-        AndroidSettings(delegate = get<SharedPreferences>())
+internal fun buildAndroidKoinModule(
+    doOnStartup: (() -> Unit)?
+): Module {
+    return module {
+        single { doOnStartup }
     }
+}
 
-    val baseKermit = Kermit(LogcatLogger())
+internal actual fun buildBaseKermit(): Kermit {
+    return Kermit(LogcatLogger())
         .withTag("CocktailApp")
-
-    factory<Kermit> { (tag: String?) -> if (tag != null) baseKermit.withTag(tag) else baseKermit }
 }
