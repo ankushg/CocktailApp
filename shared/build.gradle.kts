@@ -28,7 +28,7 @@ kotlin {
     }
 
     sourceSets["commonMain"].dependencies {
-        implementation(kotlin("stdlib-common", Deps.Versions.kotlin))
+        implementation(kotlin("stdlib-common", Deps.Kotlin.version))
 
         implementation(Deps.SqlDelight.runtime)
 
@@ -39,26 +39,26 @@ kotlin {
         implementation(Deps.Ktor.commonSerialization)
 
         implementation(Deps.Coroutines.common)
-        implementation(Deps.stately)
-        implementation(Deps.multiplatformSettings)
-        implementation(Deps.koinCore)
-        api(Deps.kermit)
+        implementation(Deps.Stately.common)
+        implementation(Deps.MultiplatformSettings.core)
+        implementation(Deps.Koin.core)
+        api(Deps.Kermit.kermit)
     }
 
     sourceSets["commonTest"].dependencies {
-        implementation(Deps.KotlinTest.common)
-        implementation(Deps.KotlinTest.annotations)
+        implementation(Deps.Kotlin.Test.common)
+        implementation(Deps.Kotlin.Test.annotations)
 
-        implementation(Deps.multiplatformSettingsTest)
+        implementation(Deps.MultiplatformSettings.test)
 
-        implementation(Deps.koinTest)
+        implementation(Deps.Koin.test)
 
         // Karmok is an experimental library which helps with mocking interfaces
-        implementation(Deps.karmok)
+        implementation(Deps.Karmok.library)
     }
 
     sourceSets["androidMain"].dependencies {
-        implementation(kotlin("stdlib", Deps.Versions.kotlin))
+        implementation(kotlin("stdlib", Deps.Kotlin.version))
         implementation(Deps.SqlDelight.driverAndroid)
         implementation(Deps.Coroutines.android)
 
@@ -70,29 +70,29 @@ kotlin {
     }
 
     sourceSets["androidTest"].dependencies {
-        implementation(Deps.KotlinTest.jvm)
-        implementation(Deps.KotlinTest.junit)
+        implementation(Deps.Kotlin.Test.jvm)
+        implementation(Deps.Kotlin.Test.junit)
 
         implementation(Deps.Android.Test.core)
-        implementation(Deps.Android.Test.junit)
         implementation(Deps.Android.Test.runner)
         implementation(Deps.Android.Test.rules)
+        implementation(Deps.Android.Test.Ext.junit)
 
         implementation(Deps.Coroutines.test)
 
-        implementation(Deps.robolectric)
+        implementation(Deps.Robolectric.robolectric)
     }
 
     sourceSets["iosMain"].dependencies {
         implementation(Deps.Coroutines.common) {
             version {
-                strictly(Deps.Versions.coroutines)
+                strictly(Deps.Coroutines.version)
             }
         }
 
         implementation(Deps.SqlDelight.driverIos)
         implementation(Deps.Ktor.ios)
-        implementation(Deps.koinCore)
+        implementation(Deps.Koin.core)
     }
 
     cocoapodsext {
@@ -100,19 +100,19 @@ kotlin {
         homepage = "https://github.com/ankushg/CocktailApp"
         framework {
             isStatic = false
-            export(Deps.kermit)
+            export(Deps.Kermit.kermit)
             transitiveExport = true
         }
     }
 }
 
 android {
-    compileSdkVersion(Deps.Versions.Android.compile_sdk)
+    compileSdkVersion(Deps.Android.Sdk.compile_version)
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(Deps.Versions.Android.min_sdk)
-        targetSdkVersion(Deps.Versions.Android.target_sdk)
-        
+        minSdkVersion(Deps.Android.Sdk.min_version)
+        targetSdkVersion(Deps.Android.Sdk.target_version)
+
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
