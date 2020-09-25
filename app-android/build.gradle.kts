@@ -63,6 +63,10 @@ dependencies {
     implementation(Deps.Android.Compose.iconsExtended)
     implementation(Deps.Android.Compose.ui_tooling)
 
+    implementation(Deps.Koin.core)
+    implementation(Deps.Koin.Android.core)
+    implementation(Deps.Koin.Android.scope)
+    implementation(Deps.Koin.Android.viewmodel)
 
     implementation(Deps.Android.Accompanist.coil)
 
