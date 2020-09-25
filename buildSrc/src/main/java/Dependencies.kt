@@ -38,7 +38,7 @@ object Deps {
     }
 
     object Coroutines {
-        const val version = "1.3.9-native-mt"
+        const val version = "1.3.9-native-mt-2"
 
         const val common = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
@@ -56,7 +56,7 @@ object Deps {
     }
 
     object Ktor {
-        private const val version = "1.4.0"
+        private const val version = "1.4.1"
 
         const val commonCore = "io.ktor:ktor-client-core:$version"
         const val commonJson = "io.ktor:ktor-client-json:$version"
@@ -76,9 +76,10 @@ object Deps {
     }
 
     object Serialization {
-        private const val version = "1.0.0-RC"
+        private const val version = "1.0.0-RC2"
 
         const val core = "org.jetbrains.kotlinx:kotlinx-serialization-core:$version"
+        const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
     }
 
     object Android {
@@ -89,7 +90,7 @@ object Deps {
         }
 
         object GradlePlugin {
-            private const val version = "4.2.0-alpha10"
+            private const val version = "4.2.0-alpha12"
             const val plugin = "com.android.tools.build:gradle:$version"
         }
 
