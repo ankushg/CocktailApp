@@ -5,20 +5,17 @@ import co.touchlab.stately.ensureNeverFrozen
 import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.enums.Glass
-import com.ankushg.cocktailapp.shared.data.local.Cocktail
-import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
-import com.ankushg.cocktailapp.shared.data.remote.CocktailApi
-import com.ankushg.cocktailapp.shared.data.remote.models.CocktailResponse
+import com.ankushg.cocktailapp.shared.local.Cocktail
+import com.ankushg.cocktailapp.shared.local.DatabaseHelper
+import com.ankushg.cocktailapp.shared.remote.CocktailApi
+import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import org.koin.core.parameter.parametersOf
 
-class CocktailRepository : KoinComponent {
-    private val dbHelper: DatabaseHelper by inject()
-    private val cocktailApi: CocktailApi by inject()
-    private val log: Kermit by inject { parametersOf("CocktailRepository") }
-
+class CocktailRepository(
+    private val dbHelper: DatabaseHelper,
+    private val cocktailApi: CocktailApi,
+    private val log: Kermit
+) {
     init {
         ensureNeverFrozen()
     }
@@ -41,8 +38,11 @@ class CocktailRepository : KoinComponent {
             category = category
         )
 
-    fun selectCocktail(name: String): Flow<Cocktail> =
-        dbHelper.selectCocktailByName(name)
+    fun selectCocktailByName(name: String): Flow<Cocktail> =
+        dbHelper.selectCocktailsByName(name)
+
+    fun selectCocktailById(id: Long): Flow<Cocktail> =
+        dbHelper.selectCocktailById(id)
 
     suspend fun updateCocktailsByCategory(category: DrinkCategory) =
         cocktailApi.cocktailsByCategory(category)
@@ -56,7 +56,11 @@ class CocktailRepository : KoinComponent {
         cocktailApi.cocktailsByGlass(glass)
             .importToLocal()
 
-    suspend fun updateCocktailDetails(name: String) =
+    suspend fun updateCocktailDetailsById(id: Long) =
+        cocktailApi.fetchFullCocktailDetails(id)
+            .importToLocal()
+
+    suspend fun updateCocktailDetailsByName(name: String) =
         cocktailApi.cocktailsByName(name)
             .importToLocal()
 

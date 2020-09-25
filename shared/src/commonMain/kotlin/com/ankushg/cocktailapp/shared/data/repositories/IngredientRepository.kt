@@ -2,21 +2,18 @@ package com.ankushg.cocktailapp.shared.data.repositories
 
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
-import com.ankushg.cocktailapp.shared.data.local.DatabaseHelper
-import com.ankushg.cocktailapp.shared.data.local.Ingredient
-import com.ankushg.cocktailapp.shared.data.remote.CocktailApi
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientDetailResponse
-import com.ankushg.cocktailapp.shared.data.remote.models.IngredientNameResponse
+import com.ankushg.cocktailapp.shared.local.DatabaseHelper
+import com.ankushg.cocktailapp.shared.local.Ingredient
+import com.ankushg.cocktailapp.shared.remote.CocktailApi
+import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
+import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse
 import kotlinx.coroutines.flow.Flow
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import org.koin.core.parameter.parametersOf
 
-class IngredientRepository : KoinComponent {
-    private val dbHelper: DatabaseHelper by inject()
-    private val cocktailApi: CocktailApi by inject()
-    private val log: Kermit by inject { parametersOf("IngredientRepository") }
-
+class IngredientRepository(
+    private val dbHelper: DatabaseHelper,
+    private val cocktailApi: CocktailApi,
+    private val log: Kermit
+) {
     init {
         ensureNeverFrozen()
     }
