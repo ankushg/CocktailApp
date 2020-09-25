@@ -1,11 +1,7 @@
 package com.ankushg.cocktailapp
 
-import android.app.Application
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.touchlab.kermit.Kermit
-import com.ankushg.cocktailapp.shared.AppInfo
 import com.ankushg.cocktailapp.shared.initKoin
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
@@ -24,15 +20,13 @@ class KoinTest : BaseTest() {
     @Test
     fun checkAllModules() {
         initKoin(
-            module {
-                single<Context> { getApplicationContext<Application>() }
-                single { get<Context>().getSharedPreferences("TEST", Context.MODE_PRIVATE) }
-                single<AppInfo> { TestAppInfo }
-                single { {} }
+            platformModules = listOf(
+                module {}
+            )
+        ) {}
+            .checkModules {
+                create<Kermit> { parametersOf("TestTag") }
             }
-        ).checkModules {
-            create<Kermit> { parametersOf("TestTag") }
-        }
     }
 
     @AfterTest
