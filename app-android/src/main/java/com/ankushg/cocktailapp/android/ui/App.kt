@@ -1,64 +1,59 @@
 package com.ankushg.cocktailapp.android.ui
 
 import CocktailDescription
-import androidx.activity.OnBackPressedDispatcher
 import androidx.compose.animation.Crossfade
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.savedinstancestate.rememberSavedInstanceState
-import com.ankushg.cocktailapp.android.placeholders.cocktails.RecipeIngredient
-import com.ankushg.cocktailapp.android.placeholders.cocktails.allDrinkCategories
-import com.ankushg.cocktailapp.android.placeholders.cocktails.cocktailSummaries
 import com.ankushg.cocktailapp.android.ui.category.CategoryList
 import com.ankushg.cocktailapp.android.ui.cocktail.CocktailList
 import com.ankushg.cocktailapp.android.ui.ingredient.IngredientDescription
-import com.ankushg.cocktailapp.android.ui.utils.BackDispatcherAmbient
-import com.ankushg.cocktailapp.android.ui.utils.Navigator
+import com.ankushg.cocktailapp.android.ui.utils.BackButtonHandler
 import com.ankushg.cocktailapp.android.ui.utils.ProvideDisplayInsets
+import com.ankushg.cocktailapp.shared.app.Action
+import com.ankushg.cocktailapp.shared.app.AppViewModel
+import com.ankushg.cocktailapp.shared.app.ViewState
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
-import com.ankushg.cocktailapp.shared.local.Cocktail
-import com.ankushg.cocktailapp.shared.local.Ingredient
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Composable
-fun MainAppView(backDispatcher: OnBackPressedDispatcher) {
-    @Suppress("RemoveExplicitTypeArguments")
-    val navigator: Navigator<Destination> = rememberSavedInstanceState(
-        saver = Navigator.saver<Destination>(backDispatcher)
-    ) {
-        Navigator(Destination.CategoryList, backDispatcher)
-    }
-    val actions = remember(navigator) { Actions(navigator) }
+@ExperimentalCoroutinesApi
+fun MainAppView(appViewModel: AppViewModel) {
+    val appState by appViewModel.stateFlow.collectAsState()
+    val actionRouter = remember(appViewModel) { ActionRouter(appViewModel) }
 
-    Providers(BackDispatcherAmbient provides backDispatcher) {
-        ProvideDisplayInsets {
-            Surface(color = MaterialTheme.colors.background) {
-                Crossfade(navigator.current) { destination ->
-                    when (destination) {
-                        Destination.CategoryList -> CategoryList(
-                            categories = allDrinkCategories,
-                            onClick = actions.selectCategory
-                        )
-                        is Destination.DrinksByCategory -> CocktailList(
-                            cocktails = cocktailSummaries,
-                            onClick = { actions.selectDrink(it.idDrink) }
-                        )
-                        is Destination.DrinkDetails -> CocktailDescription(
-                            idDrink = destination.idDrink,
-                            selectIngredient = actions.selectIngredient,
-                            upPress = actions.upPress
-                        )
-                        is Destination.IngredientDetails -> IngredientDescription(
-                            strIngredient = destination.strIngredient,
-                            upPress = actions.upPress
-                        )
-                    }
+    ProvideDisplayInsets {
+        Surface(color = MaterialTheme.colors.background) {
+            Crossfade(appState) { state ->
+                when (state) {
+                    is ViewState.IngredientDetails -> IngredientDescription(
+                        state = state,
+                        onUpPressed = actionRouter.onUpPressed
+                    )
+                    is ViewState.CategoryList -> CategoryList(
+                        state = state,
+                        onCategoryClicked = actionRouter.onCategoryClicked
+                    )
+                    is ViewState.CocktailList -> CocktailList(
+                        state = state,
+                        onDrinkClicked = actionRouter.onDrinkClicked
+                    )
+                    is ViewState.DrinkDetails -> CocktailDescription(
+                        state = state,
+                        onIngredientClicked = actionRouter.onIngredientClicked,
+                        onUpPressed = actionRouter.onUpPressed
+                    )
                 }
             }
         }
     }
+
+    BackButtonHandler(onBackPressed = actionRouter.onBackPressed)
+}
+
 private class ActionRouter(val appViewModel: AppViewModel) {
     val onCategoryClicked = { category: DrinkCategory ->
         appViewModel.submitAction(Action.SelectCategory(category))
