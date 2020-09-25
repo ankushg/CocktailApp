@@ -28,6 +28,12 @@ object Deps {
 
         const val core = "org.koin:koin-core:$version"
         const val test = "org.koin:koin-test:$version"
+
+        object Android {
+            const val core = "org.koin:koin-android:$version"
+            const val scope = "org.koin:koin-androidx-scope:$version"
+            const val viewmodel = "org.koin:koin-androidx-viewmodel:$version"
+        }
     }
 
     object MultiplatformSettings {
