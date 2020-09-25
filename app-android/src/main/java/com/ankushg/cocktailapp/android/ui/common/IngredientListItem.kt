@@ -7,11 +7,11 @@ import androidx.compose.material.ListItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.RecipeIngredient
-import com.ankushg.cocktailapp.android.placeholders.cocktails.strSmallImageUrl
-import com.ankushg.cocktailapp.android.placeholders.cocktails.vodka
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
+import com.ankushg.cocktailapp.shared.data.placeholders.vodka
+import com.ankushg.cocktailapp.shared.domain.entities.RecipeIngredient
+import com.ankushg.cocktailapp.shared.domain.entities.strSmallImageUrl
 import com.ankushg.cocktailapp.shared.local.Ingredient
 
 @Composable
@@ -49,10 +49,8 @@ private fun IngredientListItem(
     Card {
         ListItem(
             modifier = Modifier.clickable(onClick = onClick),
-            icon = strThumbnailUrl?.let { thumbnailUrl ->
-                {
-                    NetworkImage(url = thumbnailUrl)
-                }
+            icon = {
+                NetworkImage(url = strThumbnailUrl)
             },
             text = { Text(strIngredient) },
             secondaryText = quantityString?.let { { Text(it) } }

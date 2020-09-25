@@ -22,44 +22,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.margarita
-import com.ankushg.cocktailapp.android.placeholders.cocktails.recipeIngredients
 import com.ankushg.cocktailapp.android.ui.common.RecipeIngredientListItem
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
+import com.ankushg.cocktailapp.shared.app.ViewState
+import com.ankushg.cocktailapp.shared.data.placeholders.margarita
+import com.ankushg.cocktailapp.shared.domain.entities.RecipeIngredient
+import com.ankushg.cocktailapp.shared.domain.entities.recipeIngredients
 import com.ankushg.cocktailapp.shared.local.Cocktail
 
 @Composable
 fun CocktailDescription(
-    idDrink: Long,
-    selectIngredient: (String) -> Unit,
-    upPress: () -> Unit
+    state: ViewState.DrinkDetails,
+    onIngredientClicked: (String) -> Unit,
+    onUpPressed: () -> Unit
 ) {
-    // TODO: get viewModel, init with idDrink
-    val cocktail = margarita
-
-    CocktailDescription(
-        cocktail = cocktail,
-        selectIngredient = selectIngredient,
-        upPress = upPress
-    )
-}
-
-@Composable
-fun CocktailDescription(
-    cocktail: Cocktail,
-    selectIngredient: (String) -> Unit,
-    upPress: () -> Unit
-) {
-    val cocktail = margarita
+    val (cocktail, recipeIngredients) = state
 
     Surface {
         ScrollableColumn {
-            CocktailDescriptionHeader(cocktail, upPress)
+            CocktailDescriptionHeader(cocktail, onUpPressed)
             CocktailInformation(cocktail)
             CocktailRecipeBody(cocktail)
-            CocktailIngredients(cocktail, selectIngredient)
+            CocktailIngredients(recipeIngredients, onIngredientClicked)
             CocktailFooter(cocktail)
         }
     }
@@ -68,7 +54,7 @@ fun CocktailDescription(
 @Composable
 private fun CocktailDescriptionHeader(
     cocktail: Cocktail,
-    upPress: () -> Unit
+    onUpPressed: () -> Unit
 ) {
     Stack {
         NetworkImage(
@@ -84,7 +70,7 @@ private fun CocktailDescriptionHeader(
             contentColor = Color.White, // always white as image has dark scrim
             modifier = Modifier.statusBarsPadding()
         ) {
-            IconButton(onClick = upPress) {
+            IconButton(onClick = onUpPressed) {
                 Icon(
                     asset = Icons.Rounded.ArrowBack
                 )
@@ -144,11 +130,9 @@ private fun CocktailRecipeBody(cocktail: Cocktail) {
 
 @Composable
 private fun CocktailIngredients(
-    cocktail: Cocktail,
+    ingredients: List<RecipeIngredient>,
     selectIngredient: (String) -> Unit
 ) {
-    val ingredients = cocktail.recipeIngredients
-
     ingredients.forEach { ingredient ->
         RecipeIngredientListItem(
             recipeIngredient = ingredient,
@@ -169,11 +153,12 @@ private fun CocktailFooter(cocktail: Cocktail) {
 @Preview(name = "Cocktail Details")
 @Composable
 private fun CocktailDetailsPreview() {
+    val previewState = ViewState.DrinkDetails(margarita, margarita.recipeIngredients)
     CocktailAppTheme {
         CocktailDescription(
-            cocktail = margarita,
-            selectIngredient = { },
-            upPress = { }
+            state = previewState,
+            onUpPressed = { },
+            onIngredientClicked = { }
         )
     }
 }

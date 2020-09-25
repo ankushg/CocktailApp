@@ -7,10 +7,10 @@ import androidx.compose.material.ListItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.margarita
-import com.ankushg.cocktailapp.android.placeholders.cocktails.strSmallUrl
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
+import com.ankushg.cocktailapp.shared.data.placeholders.margarita
+import com.ankushg.cocktailapp.shared.domain.entities.strSmallUrl
 import com.ankushg.cocktailapp.shared.local.Cocktail
 
 @Composable

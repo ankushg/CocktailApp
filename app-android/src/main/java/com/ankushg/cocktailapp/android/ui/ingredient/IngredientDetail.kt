@@ -21,46 +21,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.strImageUrl
-import com.ankushg.cocktailapp.android.placeholders.cocktails.vodka
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
+import com.ankushg.cocktailapp.shared.app.ViewState
+import com.ankushg.cocktailapp.shared.data.placeholders.cocktailSummaries
+import com.ankushg.cocktailapp.shared.data.placeholders.vodka
+import com.ankushg.cocktailapp.shared.domain.entities.strImageUrl
 import com.ankushg.cocktailapp.shared.local.Ingredient
 
 @Composable
 fun IngredientDescription(
-    strIngredient: String,
-    upPress: () -> Unit
+    state: ViewState.IngredientDetails,
+    onUpPressed: () -> Unit
 ) {
-    // TODO: get viewModel, init with strIngredient
-    val ingredient = vodka
+    val (ingredient, usedInCocktails) = state
 
     IngredientDescription(
         ingredient = ingredient,
-        upPress = upPress
+        onUpPressed = onUpPressed
     )
 }
 
 @Composable
 private fun IngredientDescription(
     ingredient: Ingredient,
-    upPress: () -> Unit
+    onUpPressed: () -> Unit
 ) {
     Surface {
         ScrollableColumn {
-            IngredientDetailTopBar(ingredient, upPress)
+            IngredientDetailTopBar(ingredient.strImageUrl, onUpPressed)
             IngredientInformation(ingredient)
-            IngredientDescriptionText(ingredient)
+            IngredientDescriptionText(ingredient.strDescription)
         }
     }
 }
 
 @Composable
-private fun IngredientDetailTopBar(ingredient: Ingredient, upPress: () -> Unit) {
+private fun IngredientDetailTopBar(
+    ingredientImageUrl: String,
+    onUpPressed: () -> Unit
+) {
     Stack {
         NetworkImage(
-            url = ingredient.strImageUrl,
+            url = ingredientImageUrl,
             modifier = Modifier
                 .fillMaxWidth()
                 // .scrim(colors = listOf(Color(0x80000000), Color(0x33000000)))
@@ -72,7 +76,7 @@ private fun IngredientDetailTopBar(ingredient: Ingredient, upPress: () -> Unit) 
             contentColor = Color.White, // always white as image has dark scrim
             modifier = Modifier.statusBarsPadding()
         ) {
-            IconButton(onClick = upPress) {
+            IconButton(onClick = onUpPressed) {
                 Icon(
                     asset = Icons.Rounded.ArrowBack
                 )
@@ -148,8 +152,8 @@ private fun IngredientInformation(ingredient: Ingredient) {
 }
 
 @Composable
-private fun IngredientDescriptionText(ingredient: Ingredient) {
-    ingredient.strDescription?.let { description ->
+private fun IngredientDescriptionText(description: String?) {
+    if (description != null) {
         Text(
             text = description,
             style = MaterialTheme.typography.body2,
@@ -165,10 +169,15 @@ private fun IngredientDescriptionText(ingredient: Ingredient) {
 @Preview("Ingredient Detail")
 @Composable
 private fun IngredientDetailPreview() {
+    val state = ViewState.IngredientDetails(
+        ingredient = vodka,
+        usedInCocktails = cocktailSummaries
+    )
+
     CocktailAppTheme {
         IngredientDescription(
-            ingredient = vodka,
-            upPress = { }
+            state,
+            onUpPressed = { }
         )
     }
 }

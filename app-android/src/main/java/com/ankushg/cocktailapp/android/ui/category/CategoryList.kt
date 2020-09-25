@@ -3,20 +3,23 @@ package com.ankushg.cocktailapp.android.ui.category
 import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.runtime.Composable
 import androidx.ui.tooling.preview.Preview
-import com.ankushg.cocktailapp.android.placeholders.cocktails.allDrinkCategories
 import com.ankushg.cocktailapp.android.ui.common.CategoryListItem
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
+import com.ankushg.cocktailapp.shared.app.ViewState
 import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.data.placeholders.allDrinkCategories
 
 @Composable
 fun CategoryList(
-    categories: List<DrinkCategory>,
-    onClick: (DrinkCategory) -> Unit
+    state: ViewState.CategoryList,
+    onCategoryClicked: (DrinkCategory) -> Unit
 ) {
+    val categories = state.categories
+
     LazyColumnFor(items = categories) { item ->
         CategoryListItem(
             category = item,
-            onClick = { onClick(item) }
+            onClick = { onCategoryClicked(item) }
         )
     }
 }
@@ -24,10 +27,14 @@ fun CategoryList(
 @Preview(showBackground = true)
 @Composable
 private fun CategoryListPreview() {
+    val previewState = ViewState.CategoryList(
+        categories = allDrinkCategories
+    )
+
     CocktailAppTheme {
         CategoryList(
-            allDrinkCategories,
-            onClick = { }
+            previewState,
+            onCategoryClicked = { }
         )
     }
 }
