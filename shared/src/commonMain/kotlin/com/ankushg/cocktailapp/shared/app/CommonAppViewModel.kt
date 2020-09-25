@@ -33,15 +33,18 @@ class CommonAppViewModel : AppViewModel, KoinComponent {
     override val stateFlow: CStateFlow<ViewState?>
         get() = mutableStateFlow.wrap(MainScope()) // TODO: don't necessarily use main scope
 
+    private var currentJob: Job? = null
+
     init {
         ensureNeverFrozen()
+
         emitState(initialState)
     }
 
     override fun submitAction(action: Action) {
         log.d { "Received action: $action" }
 
-        val newState: ViewState? = when (action) {
+        val newStateFlow: Flow<ViewState?> = when (action) {
             is Action.SelectCategory -> processCategorySelection(action)
             is Action.SelectDrink -> processDrinkSelection(action)
             is Action.SelectIngredient -> processIngredientSelection(action)
@@ -49,7 +52,12 @@ class CommonAppViewModel : AppViewModel, KoinComponent {
             Action.BackPress -> processBackPress()
         }
 
-        emitState(newState)
+        currentJob?.cancel()
+        currentJob = MainScope().launch {
+            newStateFlow.collect {
+                emitState(it)
+            }
+        }
     }
 
     private fun emitState(newState: ViewState?) {
@@ -63,24 +71,24 @@ class CommonAppViewModel : AppViewModel, KoinComponent {
         }
     }
 
-    private fun processCategorySelection(selectCategory: Action.SelectCategory): ViewState? {
-        return ViewState.CocktailList(cocktailSummaries)
+    private fun processCategorySelection(selectCategory: Action.SelectCategory): Flow<ViewState?> {
+        return flowOf(ViewState.CocktailList(cocktailSummaries))
     }
 
-    private fun processDrinkSelection(selectDrink: Action.SelectDrink): ViewState? {
-        return ViewState.DrinkDetails(margarita, margarita.recipeIngredients)
+    private fun processDrinkSelection(selectDrink: Action.SelectDrink): Flow<ViewState?> {
+        return flowOf(ViewState.DrinkDetails(margarita, margarita.recipeIngredients))
     }
 
-    private fun processIngredientSelection(selectIngredient: Action.SelectIngredient): ViewState? {
-        return ViewState.IngredientDetails(vodka, cocktailSummaries)
+    private fun processIngredientSelection(selectIngredient: Action.SelectIngredient): Flow<ViewState?> {
+        return flowOf(ViewState.IngredientDetails(vodka, cocktailSummaries))
     }
 
-    private fun processUpPress(): ViewState? {
-        return navigator.back()
+    private fun processUpPress(): Flow<ViewState?> {
+        return flowOf(navigator.back())
     }
 
-    private fun processBackPress(): ViewState? {
+    private fun processBackPress(): Flow<ViewState?> {
         // TODO: allow users to back all the way out of the app!
-        return navigator.back()
+        return flowOf(navigator.back())
     }
 }
