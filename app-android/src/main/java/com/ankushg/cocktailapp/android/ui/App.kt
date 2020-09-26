@@ -16,7 +16,7 @@ import com.ankushg.cocktailapp.android.ui.utils.ProvideDisplayInsets
 import com.ankushg.cocktailapp.shared.app.Action
 import com.ankushg.cocktailapp.shared.app.AppViewModel
 import com.ankushg.cocktailapp.shared.app.ViewState
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @Composable

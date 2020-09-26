@@ -2,9 +2,9 @@ package com.ankushg.cocktailapp.shared.local
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
-import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
-import com.ankushg.cocktailapp.shared.data.enums.Glass
+import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import com.ankushg.cocktailapp.shared.local.mappers.cocktailAdapter
 import com.ankushg.cocktailapp.shared.remote.models.IngredientSummary
 import com.squareup.sqldelight.db.SqlDriver

@@ -6,6 +6,9 @@ package com.ankushg.cocktailapp.shared.remote.models
 
 import com.ankushg.cocktailapp.shared.local.Cocktail
 import kotlinx.serialization.ExperimentalSerializationApi
+import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.UseSerializers

@@ -2,9 +2,9 @@ package com.ankushg.cocktailapp.shared.remote
 
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
-import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
-import com.ankushg.cocktailapp.shared.data.enums.Glass
+import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse

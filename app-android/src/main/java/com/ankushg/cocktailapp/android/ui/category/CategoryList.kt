@@ -6,8 +6,8 @@ import androidx.ui.tooling.preview.Preview
 import com.ankushg.cocktailapp.android.ui.common.CategoryListItem
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.shared.app.ViewState
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.data.placeholders.allDrinkCategories
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 
 @Composable
 fun CategoryList(

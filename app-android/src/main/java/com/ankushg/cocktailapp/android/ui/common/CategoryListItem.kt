@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.ui.tooling.preview.Preview
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 
 @Composable
 fun CategoryListItem(

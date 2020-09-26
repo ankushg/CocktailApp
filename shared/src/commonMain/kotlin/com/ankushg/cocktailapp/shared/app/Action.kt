@@ -1,6 +1,6 @@
 package com.ankushg.cocktailapp.shared.app
 
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 
 sealed class Action {
     data class SelectCategory(val drinkCategory: DrinkCategory) : Action()

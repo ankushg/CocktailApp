@@ -1,4 +1,4 @@
-package com.ankushg.cocktailapp.shared.data.enums
+package com.ankushg.cocktailapp.shared.domain.enums
 
 /**
  * Note: this was manually compiled from the API as a design decision to simplify representation
@@ -18,3 +18,4 @@ enum class AlcoholStatus(val strAlcoholic: String) {
             ?: ALCOHOL_OPTIONAL
     }
 }
+
