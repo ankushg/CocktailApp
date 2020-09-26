@@ -63,7 +63,13 @@ class CommonAppViewModel : AppViewModel, KoinComponent {
     private fun emitState(newState: ViewState?) {
         if (newState != null && newState != mutableStateFlow.value) {
             mutableStateFlow.value = newState
-            navigator.navigate(newState)
+
+            val currentNav = navigator.current
+            if (currentNav != null && currentNav::class == newState::class) {
+                navigator.replaceCurrent(newState)
+            } else {
+                navigator.navigateTo(newState)
+            }
 
             check(navigator.current == stateFlow.value) {
                 "Navigator and stateFlow have mismatching states!"

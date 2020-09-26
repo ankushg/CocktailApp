@@ -10,15 +10,20 @@ class Navigator<T> private constructor(
     constructor() : this(emptyList())
 
     private val backStack = initialBackStack.toMutableList()
-    val current: T get() = backStack.last()
+    val current: T? get() = backStack.lastOrNull()
 
-    fun back(): T {
+    fun back(): T? {
         if (canGoBack()) backStack.removeLast()
         return current
     }
 
-    fun navigate(destination: T): T {
+    fun navigateTo(destination: T): T {
         backStack += destination
+        return destination
+    }
+
+    fun replaceCurrent(destination: T): T {
+        backStack[backStack.lastIndex] = destination
         return destination
     }
 
