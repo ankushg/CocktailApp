@@ -10,9 +10,9 @@ import androidx.ui.tooling.preview.Preview
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.shared.data.placeholders.vodka
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import com.ankushg.cocktailapp.shared.domain.entities.RecipeIngredient
 import com.ankushg.cocktailapp.shared.domain.entities.strSmallImageUrl
-import com.ankushg.cocktailapp.shared.local.Ingredient
 
 @Composable
 fun RecipeIngredientListItem(
@@ -29,7 +29,7 @@ fun RecipeIngredientListItem(
 
 @Composable
 fun IngredientListItem(
-    ingredient: Ingredient,
+    ingredient: DomainIngredient,
     onClick: () -> Unit
 ) {
     IngredientListItem(
@@ -83,7 +83,7 @@ private fun IngredientListItemPreview(darkTheme: Boolean, withQuantity: Boolean 
     CocktailAppTheme(darkTheme) {
         IngredientListItem(
             ingredient = vodka,
-            onClick = {}
+            onClick = {},
         )
     }
 }

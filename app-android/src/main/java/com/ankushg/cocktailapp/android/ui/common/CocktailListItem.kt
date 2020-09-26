@@ -10,12 +10,12 @@ import androidx.ui.tooling.preview.Preview
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.shared.data.placeholders.margarita
+import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktail
 import com.ankushg.cocktailapp.shared.domain.entities.strSmallUrl
-import com.ankushg.cocktailapp.shared.local.Cocktail
 
 @Composable
 fun CocktailListItem(
-    cocktail: Cocktail,
+    cocktail: DomainCocktail,
     onClick: () -> Unit
 ) {
     Card {

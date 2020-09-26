@@ -1,17 +1,20 @@
 package com.ankushg.cocktailapp.shared.domain.entities
 
-import com.ankushg.cocktailapp.shared.local.Ingredient
+import com.ankushg.cocktailapp.shared.local.Ingredient as LocalIngredient
 
-fun String.asIngredientImageUrl(sizeModifier: String? = null) =
-    "https://www.thecocktaildb.com/images/ingredients/${this}${sizeModifier ?: ""}.png"
+typealias DomainIngredient = LocalIngredient
 
-fun String.asSmallIngredientImageUrl() = asIngredientImageUrl("-Small")
-
-val Ingredient.strImageUrl
+val DomainIngredient.strImageUrl
     get() = strIngredient.asIngredientImageUrl()
 
-val Ingredient.strSmallImageUrl
+val DomainIngredient.strSmallImageUrl
     get() = strIngredient.asIngredientImageUrl("-Small")
 
-val Ingredient.strMediumImageUrl
+val DomainIngredient.strMediumImageUrl
     get() = strIngredient.asIngredientImageUrl("-Medium")
+
+private fun String.asIngredientImageUrl(sizeModifier: String? = null) =
+    "https://www.thecocktaildb.com/images/ingredients/${this}${sizeModifier ?: ""}.png"
+
+internal fun String.asSmallIngredientImageUrl() = asIngredientImageUrl("-Small")
+

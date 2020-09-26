@@ -2,11 +2,12 @@ package com.ankushg.cocktailapp.shared.data.repositories
 
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import com.ankushg.cocktailapp.shared.local.DatabaseHelper
-import com.ankushg.cocktailapp.shared.local.Ingredient
 import com.ankushg.cocktailapp.shared.remote.CocktailApi
 import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse
+import com.ankushg.cocktailapp.shared.remote.models.toDomainIngredient
 import kotlinx.coroutines.flow.Flow
 
 class IngredientRepository(
@@ -18,11 +19,11 @@ class IngredientRepository(
         ensureNeverFrozen()
     }
 
-    fun listIngredients(): Flow<List<Ingredient>> {
+    fun listIngredients(): Flow<List<DomainIngredient>> {
         return dbHelper.selectAllIngredients()
     }
 
-    fun queryIngredient(ingredientName: String): Flow<Ingredient> =
+    fun selectIngredientByName(ingredientName: String): Flow<DomainIngredient> =
         dbHelper.selectIngredient(ingredientName)
 
     suspend fun updateIngredientList() =
@@ -34,12 +35,10 @@ class IngredientRepository(
             .importToLocal()
 
     private suspend fun IngredientNameResponse.importToLocal() {
-        log.d { "Storing ingredient name response to DB: $this" }
-        dbHelper.insertIngredientSummaries(this.ingredients)
+        dbHelper.insertIngredientSummaries(this.ingredients.map { it.toDomainIngredient() })
     }
 
     private suspend fun IngredientDetailResponse.importToLocal() {
-        log.d { "Storing ingredient detail response to DB: $this" }
-        dbHelper.insertIngredientDetails(this.ingredients)
+        dbHelper.insertIngredientDetails(this.ingredients.map { it.toDomainIngredient() })
     }
 }

@@ -1,8 +1,8 @@
 package com.ankushg.cocktailapp.shared.app
 
-import com.ankushg.cocktailapp.shared.domain.entities.RecipeIngredient
-import com.ankushg.cocktailapp.shared.local.Cocktail
-import com.ankushg.cocktailapp.shared.local.Ingredient
+import com.ankushg.cocktailapp.shared.domain.entities.CocktailWithRecipe
+import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktail
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 
 sealed class ViewState {
@@ -11,16 +11,15 @@ sealed class ViewState {
     ) : ViewState()
 
     data class CocktailList(
-        val cocktails: List<Cocktail>
+        val cocktails: List<DomainCocktail>
     ) : ViewState()
 
     data class DrinkDetails(
-        val cocktail: Cocktail,
-        val recipeIngredients: List<RecipeIngredient>
+        val cocktailWithRecipe: CocktailWithRecipe
     ) : ViewState()
 
     data class IngredientDetails(
-        val ingredient: Ingredient,
-        val usedInCocktails: List<Cocktail>
+        val ingredient: DomainIngredient,
+        val usedInCocktails: List<DomainCocktail>
     ) : ViewState()
 }

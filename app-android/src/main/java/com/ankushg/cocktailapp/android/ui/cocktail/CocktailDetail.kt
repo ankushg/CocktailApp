@@ -27,10 +27,9 @@ import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
 import com.ankushg.cocktailapp.shared.app.ViewState
-import com.ankushg.cocktailapp.shared.data.placeholders.margarita
+import com.ankushg.cocktailapp.shared.data.placeholders.margaritaRecipe
+import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktail
 import com.ankushg.cocktailapp.shared.domain.entities.RecipeIngredient
-import com.ankushg.cocktailapp.shared.domain.entities.recipeIngredients
-import com.ankushg.cocktailapp.shared.local.Cocktail
 
 @Composable
 fun CocktailDescription(
@@ -38,7 +37,7 @@ fun CocktailDescription(
     onIngredientClicked: (String) -> Unit,
     onUpPressed: () -> Unit
 ) {
-    val (cocktail, recipeIngredients) = state
+    val (cocktail, recipeIngredients) = state.cocktailWithRecipe
 
     Surface {
         ScrollableColumn {
@@ -53,7 +52,7 @@ fun CocktailDescription(
 
 @Composable
 private fun CocktailDescriptionHeader(
-    cocktail: Cocktail,
+    cocktail: DomainCocktail,
     onUpPressed: () -> Unit
 ) {
     Stack {
@@ -88,7 +87,7 @@ private fun CocktailDescriptionHeader(
 }
 
 @Composable
-private fun CocktailInformation(cocktail: Cocktail) {
+private fun CocktailInformation(cocktail: DomainCocktail) {
     Text(
         text = cocktail.strCategory!!.strCategory.toUpperCase(),
         color = MaterialTheme.colors.primary,
@@ -115,7 +114,7 @@ private fun CocktailInformation(cocktail: Cocktail) {
 }
 
 @Composable
-private fun CocktailRecipeBody(cocktail: Cocktail) {
+private fun CocktailRecipeBody(cocktail: DomainCocktail) {
     if (cocktail.strInstructions != null) {
         Text(
             text = cocktail.strInstructions!!,
@@ -144,7 +143,7 @@ private fun CocktailIngredients(
 }
 
 @Composable
-private fun CocktailFooter(cocktail: Cocktail) {
+private fun CocktailFooter(cocktail: DomainCocktail) {
     cocktail.strGlass?.strGlass?.let { glass ->
         Text(text = "Serve: $glass")
     }
@@ -153,7 +152,7 @@ private fun CocktailFooter(cocktail: Cocktail) {
 @Preview(name = "Cocktail Details")
 @Composable
 private fun CocktailDetailsPreview() {
-    val previewState = ViewState.DrinkDetails(margarita, margarita.recipeIngredients)
+    val previewState = ViewState.DrinkDetails(margaritaRecipe)
     CocktailAppTheme {
         CocktailDescription(
             state = previewState,

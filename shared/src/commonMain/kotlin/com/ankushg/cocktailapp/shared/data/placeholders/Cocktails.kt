@@ -1,5 +1,8 @@
 package com.ankushg.cocktailapp.shared.data.placeholders
 
+import com.ankushg.cocktailapp.shared.domain.entities.CocktailWithRecipe
+import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktail
+import com.ankushg.cocktailapp.shared.domain.entities.recipeIngredients
 import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.domain.enums.Glass
@@ -124,8 +127,8 @@ internal fun buildCocktail(
     strMeasure15: String? = null,
     strCreativeCommonsConfirmed: String? = null,
     dateModified: String? = null
-): Cocktail {
-    return Cocktail(
+): DomainCocktail {
+    return DomainCocktail(
         idDrink = idDrink,
         strDrink = strDrink,
         strDrinkThumb = strDrinkThumb,
@@ -181,5 +184,9 @@ internal fun buildCocktail(
         dateModified = dateModified,
     )
 }
+
+val margaritaRecipe = CocktailWithRecipe(
+    margarita, margarita.recipeIngredients
+)
 
 val cocktailSummaries = List(10) { margaritaSummary }

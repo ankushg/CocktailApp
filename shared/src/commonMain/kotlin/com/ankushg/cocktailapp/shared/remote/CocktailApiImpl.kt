@@ -84,7 +84,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByIngredient(ingredient: String): CocktailResponse =
+    override suspend fun cocktailsByIngredient(ingredient: String): CocktailSummaryResponse =
         client.get {
             log.d { "Querying API for cocktails containing: $ingredient" }
 
@@ -94,7 +94,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByIngredients(ingredientList: Collection<String>): CocktailResponse =
+    override suspend fun cocktailsByIngredients(ingredientList: Collection<String>): CocktailSummaryResponse =
         client.get {
             log.d { "Querying API for cocktails containing: $ingredientList" }
 
@@ -104,7 +104,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailResponse =
+    override suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailSummaryResponse =
         client.get {
             log.d { "Querying API for cocktails by alcohol status: $alcoholStatus" }
 
@@ -114,7 +114,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByCategory(category: DrinkCategory): CocktailResponse =
+    override suspend fun cocktailsByCategory(category: DrinkCategory): CocktailSummaryResponse =
         client.get {
             log.d { "Querying API for cocktails by category: $category" }
 
@@ -124,7 +124,7 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
             )
         }
 
-    override suspend fun cocktailsByGlass(glass: Glass): CocktailResponse = client.get {
+    override suspend fun cocktailsByGlass(glass: Glass): CocktailSummaryResponse = client.get {
         log.d { "Querying API for cocktails by glass type: $glass" }
 
         endpoint(

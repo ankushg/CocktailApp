@@ -1,8 +1,12 @@
 package com.ankushg.cocktailapp.shared.domain.entities
 
-import com.ankushg.cocktailapp.shared.local.Cocktail
+import com.ankushg.cocktailapp.shared.remote.models.RemoteCocktailSummary
+import com.ankushg.cocktailapp.shared.local.Cocktail as LocalCocktail
 
-val Cocktail.recipeIngredients: List<RecipeIngredient>
+typealias DomainCocktail = LocalCocktail
+typealias DomainCocktailSummary = RemoteCocktailSummary
+
+internal val DomainCocktail.recipeIngredients: List<RecipeIngredient>
     get() = ingredientMeasurePairs
         .mapNotNull { (ingredient, measure) ->
             if (ingredient == null) {
@@ -16,10 +20,10 @@ val Cocktail.recipeIngredients: List<RecipeIngredient>
             }
         }
 
-val Cocktail.strSmallUrl
+val DomainCocktail.strSmallUrl
     get() = "$strDrinkThumb/preview"
 
-private val Cocktail.ingredientMeasurePairs: List<Pair<String?, String?>>
+private val DomainCocktail.ingredientMeasurePairs: List<Pair<String?, String?>>
     get() = listOfNotNull(
         strIngredient1 to strMeasure1,
         strIngredient2 to strMeasure2,

@@ -4,6 +4,7 @@ import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
+import com.ankushg.cocktailapp.shared.remote.models.CocktailSummaryResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse
 
@@ -40,14 +41,14 @@ interface CocktailApi {
      *
      * https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Vodka
      */
-    suspend fun cocktailsByIngredient(ingredient: String): CocktailResponse
+    suspend fun cocktailsByIngredient(ingredient: String): CocktailSummaryResponse
 
     /**
      * Filter by multi-ingredient (only available to $2+ Patreon supporters)
      *
      * https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Dry_Vermouth,Gin,Anis
      */
-    suspend fun cocktailsByIngredients(ingredient: Collection<String>): CocktailResponse
+    suspend fun cocktailsByIngredients(ingredient: Collection<String>): CocktailSummaryResponse
 
     /**
      * Filter by alcoholic
@@ -56,7 +57,7 @@ interface CocktailApi {
      *
      * https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic
      */
-    suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailResponse
+    suspend fun cocktailsByAlcoholicStatus(alcoholStatus: AlcoholStatus): CocktailSummaryResponse
 
     /**
      * Filter by Category
@@ -65,7 +66,7 @@ interface CocktailApi {
      *
      * https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail
      */
-    suspend fun cocktailsByCategory(category: DrinkCategory): CocktailResponse
+    suspend fun cocktailsByCategory(category: DrinkCategory): CocktailSummaryResponse
 
     /**
      * Filter by Glass
@@ -74,7 +75,7 @@ interface CocktailApi {
      *
      * https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Champagne_flute
      */
-    suspend fun cocktailsByGlass(glass: Glass): CocktailResponse
+    suspend fun cocktailsByGlass(glass: Glass): CocktailSummaryResponse
 
     /**
      * Lookup a random cocktail

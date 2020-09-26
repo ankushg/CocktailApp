@@ -27,8 +27,8 @@ import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
 import com.ankushg.cocktailapp.shared.app.ViewState
 import com.ankushg.cocktailapp.shared.data.placeholders.cocktailSummaries
 import com.ankushg.cocktailapp.shared.data.placeholders.vodka
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import com.ankushg.cocktailapp.shared.domain.entities.strImageUrl
-import com.ankushg.cocktailapp.shared.local.Ingredient
 
 @Composable
 fun IngredientDescription(
@@ -45,7 +45,7 @@ fun IngredientDescription(
 
 @Composable
 private fun IngredientDescription(
-    ingredient: Ingredient,
+    ingredient: DomainIngredient,
     onUpPressed: () -> Unit
 ) {
     Surface {
@@ -87,7 +87,7 @@ private fun IngredientDetailTopBar(
 }
 
 @Composable
-private fun IngredientInformation(ingredient: Ingredient) {
+private fun IngredientInformation(ingredient: DomainIngredient) {
     ingredient.strType?.let { type ->
         Text(
             text = type.toUpperCase(),

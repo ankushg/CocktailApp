@@ -2,11 +2,12 @@ package com.ankushg.cocktailapp.shared.local
 
 import co.touchlab.kermit.Kermit
 import com.ankushg.cocktailapp.CocktailsDb
+import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktailSummary
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import com.ankushg.cocktailapp.shared.local.mappers.cocktailAdapter
-import com.ankushg.cocktailapp.shared.remote.models.IngredientSummary
 import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +30,7 @@ class DatabaseHelper(
             .mapToList()
             .flowOn(backgroundDispatcher)
             .onEach {
-                log.d { "Emitting updated ingredients from db: $it" }
+                log.d { "Emitting ${it.size}  updated ingredients from db" }
             }
     }
 
@@ -45,11 +46,11 @@ class DatabaseHelper(
             }
     }
 
-    suspend fun insertIngredientSummaries(ingredientSummaries: List<IngredientSummary>) {
+    suspend fun insertIngredientSummaries(ingredientSummaries: List<DomainIngredient>) {
         log.d { "Inserting ${ingredientSummaries.size} ingredient summaries into database" }
         dbRef.transactionWithContext(backgroundDispatcher) {
             ingredientSummaries
-                .map { it.strIngredient1 }
+                .map { it.strIngredient }
                 .forEach(dbRef.ingredientQueries::insertSummary)
         }
     }
@@ -73,7 +74,7 @@ class DatabaseHelper(
             .mapToList()
             .flowOn(backgroundDispatcher)
             .onEach {
-                log.d { "Emitting updated cocktails from db: $it" }
+                log.d { "Emitting ${it.size}  updated cocktails from db" }
             }
     }
 

@@ -1,23 +1,26 @@
-@file:UseSerializers(
-    IngredientSerializer::class
-)
-
 package com.ankushg.cocktailapp.shared.remote.models
 
-import com.ankushg.cocktailapp.shared.local.Ingredient
-import kotlinx.serialization.ExperimentalSerializationApi
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
-import kotlinx.serialization.UseSerializers
 
-/**
- * Using kotlinx.serialization's serializer generator on the SqlDelight generated class
- *
- * Ideally would be a separate, isolated, mapped data class
- */
-@OptIn(ExperimentalSerializationApi::class)
-@Serializer(forClass = Ingredient::class)
-private object IngredientSerializer
+@Serializable
+data class RemoteIngredient(
+    val strIngredient: String,
+    val idIngredient: Long? = null,
+    val strDescription: String? = null,
+    val strType: String? = null,
+    val strAlcohol: String? = null,
+    val strABV: Long? = null
+)
+
+fun RemoteIngredient.toDomainIngredient(): DomainIngredient = DomainIngredient(
+    strIngredient = strIngredient,
+    idIngredient = idIngredient,
+    strDescription = strDescription,
+    strType = strType,
+    strAlcohol = strAlcohol,
+    strABV = strABV
+)
 
 /**
  * TheCocktailDB's weird lightweight representation of an Ingredient.
@@ -26,10 +29,13 @@ private object IngredientSerializer
  * detailed model response ([Ingredient.strIngredient])
  */
 @Serializable
-data class IngredientSummary(val strIngredient1: String)
+data class RemoteIngredientSummary(val strIngredient1: String)
+
+fun RemoteIngredientSummary.toDomainIngredient() =
+    RemoteIngredient(strIngredient = strIngredient1).toDomainIngredient()
 
 @Serializable
-data class IngredientNameResponse(val ingredients: List<IngredientSummary>)
+data class IngredientNameResponse(val ingredients: List<RemoteIngredientSummary>)
 
 @Serializable
-data class IngredientDetailResponse(val ingredients: List<Ingredient>)
+data class IngredientDetailResponse(val ingredients: List<RemoteIngredient>)

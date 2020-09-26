@@ -1,6 +1,6 @@
 package com.ankushg.cocktailapp.shared.data.placeholders
 
-import com.ankushg.cocktailapp.shared.local.Ingredient
+import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 
 val vodkaSummary = buildIngredient(strIngredient = "Vodka")
 val vodka = buildIngredient(
@@ -19,8 +19,8 @@ private fun buildIngredient(
     strType: String? = null,
     strAlcohol: String? = null,
     strABV: Long? = null
-): Ingredient {
-    return Ingredient(
+): DomainIngredient {
+    return DomainIngredient(
         strIngredient = strIngredient,
         idIngredient = idIngredient,
         strDescription = strDescription,
