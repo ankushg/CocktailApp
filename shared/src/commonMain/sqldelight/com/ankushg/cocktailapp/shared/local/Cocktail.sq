@@ -70,6 +70,10 @@ selectByName:
 SELECT * FROM cocktail
 WHERE strDrink = ?;
 
+selectSummaryByCategory:
+SELECT idDrink, strDrink, strDrinkThumb FROM cocktail
+WHERE strCategory = :category;
+
 insertFullCocktail:
 INSERT OR REPLACE INTO cocktail
 VALUES ?;
@@ -77,6 +81,10 @@ VALUES ?;
 insertCocktailSummary:
 INSERT OR REPLACE INTO cocktail (idDrink, strDrink, strDrinkThumb)
 VALUES (:idDrink, :strDrink, :strDrinkThumb);
+
+insertCocktailSummaryForCategory:
+INSERT OR REPLACE INTO cocktail (idDrink, strDrink, strDrinkThumb, strCategory)
+VALUES (:idDrink, :strDrink, :strDrinkThumb, :strCategory);
 
 -- TODO(https://github.com/ankushg/CocktailApp/issues/4): index on these columns?
 selectByMulti:

@@ -48,6 +48,18 @@ class CocktailRepository(
     fun selectCocktailById(id: Long): Flow<DomainCocktail> =
         dbHelper.selectCocktailById(id)
 
+    fun selectCocktailsByCategory(category: DrinkCategory): Flow<List<DomainCocktailSummary>> =
+        dbHelper.selectCocktailSummariesByCategory(category)
+            .map {
+                it.map { (idDrink, strDrink, strDrinkThumb) ->
+                    DomainCocktailSummary(
+                        idDrink = idDrink,
+                        strDrink = strDrink,
+                        strDrinkThumb = strDrinkThumb
+                    )
+                }
+            }
+
     suspend fun updateCocktailsByCategory(category: DrinkCategory) =
         cocktailApi.cocktailsByCategory(category)
             .importToLocalWithCategory(category)
@@ -71,5 +83,12 @@ class CocktailRepository(
     private suspend fun CocktailResponse.importToLocal() {
         dbHelper.insertCocktails(this.drinks.map { it.toDomainCocktail() })
     }
+
+    private suspend fun CocktailSummaryResponse.importToLocalWithCategory(category: DrinkCategory) {
+        dbHelper.insertCocktailSummariesWithCategory(this.drinks, category)
+    }
+
+    private suspend fun CocktailSummaryResponse.importToLocal() {
+        dbHelper.insertCocktailSummaries(this.drinks)
     }
 }

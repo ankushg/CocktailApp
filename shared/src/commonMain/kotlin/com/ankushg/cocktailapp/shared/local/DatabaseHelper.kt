@@ -91,6 +91,19 @@ class DatabaseHelper(
             }
     }
 
+    fun selectCocktailSummariesByCategory(category: DrinkCategory): Flow<List<SelectSummaryByCategory>> {
+        log.d { "Querying DB for cocktails by category: $category" }
+
+        return dbRef.cocktailQueries
+            .selectSummaryByCategory(category)
+            .asFlow()
+            .mapToList()
+            .flowOn(backgroundDispatcher)
+            .onEach {
+                log.d { "Emitting ${it.size} updated cocktails for category $category from db" }
+            }
+    }
+
     fun selectCocktailsByName(name: String): Flow<Cocktail> {
         log.d { "Querying DB for cocktail: $name" }
 
@@ -128,6 +141,38 @@ class DatabaseHelper(
         dbRef.transactionWithContext(backgroundDispatcher) {
             cocktails
                 .forEach(dbRef.cocktailQueries::insertFullCocktail)
+        }
+    }
+
+    suspend fun insertCocktailSummaries(cocktailSummaries: Collection<DomainCocktailSummary>) {
+        log.d { "Inserting ${cocktailSummaries.size} cocktails into database" }
+
+        dbRef.transactionWithContext(backgroundDispatcher) {
+            cocktailSummaries.forEach {
+                dbRef.cocktailQueries.insertCocktailSummary(
+                    idDrink = it.idDrink,
+                    strDrink = it.strDrink,
+                    strDrinkThumb = it.strDrinkThumb
+                )
+            }
+        }
+    }
+
+    suspend fun insertCocktailSummariesWithCategory(
+        cocktailSummaries: Collection<DomainCocktailSummary>,
+        category: DrinkCategory
+    ) {
+        log.d { "Inserting ${cocktailSummaries.size} cocktails into database" }
+
+        dbRef.transactionWithContext(backgroundDispatcher) {
+            cocktailSummaries.forEach {
+                dbRef.cocktailQueries.insertCocktailSummaryForCategory(
+                    idDrink = it.idDrink,
+                    strDrink = it.strDrink,
+                    strDrinkThumb = it.strDrinkThumb,
+                    strCategory = category
+                )
+            }
         }
     }
     // endregion
