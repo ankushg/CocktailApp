@@ -6,6 +6,7 @@ import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
+import com.ankushg.cocktailapp.shared.remote.models.CocktailSummaryResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientDetailResponse
 import com.ankushg.cocktailapp.shared.remote.models.IngredientNameResponse
 import io.ktor.client.HttpClient
@@ -17,6 +18,8 @@ import io.ktor.client.features.logging.Logging
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.http.URLBuilder
+import io.ktor.http.encodeURLQueryComponent
 import io.ktor.http.takeFrom
 
 class CocktailApiImpl(private val log: Kermit) : CocktailApi {
@@ -26,10 +29,22 @@ class CocktailApiImpl(private val log: Kermit) : CocktailApi {
         // TODO(https://github.com/ankushg/CocktailApp/issues/1): replace with real API key
         private val developerApiKey = "1"
 
+        private fun URLBuilder.appendToPath(vararg components: String) {
+            // removes all trailing and leading separators
+            val paths = components
+                .map { it.replace(Regex("""(^/|/+$)"""), "") }
+                .joinToString("/", transform = { it.encodeURLQueryComponent() })
+            // make sure that there's a slash separator at the end of current path
+            if (!encodedPath.endsWith('/')) {
+                encodedPath = "${encodedPath}/"
+            }
+            this.encodedPath += paths
+        }
+
         private fun HttpRequestBuilder.endpoint(path: String, vararg params: Pair<String, Any>) {
             url {
                 takeFrom("$baseUrl/$developerApiKey")
-                path(path)
+                appendToPath(path)
                 params.forEach { (key, value) ->
                     parameter(key, value)
                 }
