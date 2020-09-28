@@ -16,10 +16,12 @@ fun initKoinIos(
 ): KoinApplication = initKoin(
     listOf(
         module {
-            single { doOnStartup },
-            single<MainScope> { MainScope(
-                Dispatchers.Main,
-                log = get())
+            single { doOnStartup }
+            single<MainScope> {
+                MainScope(
+                    Dispatchers.Main,
+                    log = get()
+                )
             }
         }
     )
