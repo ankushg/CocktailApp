@@ -18,17 +18,21 @@ fun CocktailListItem(
     cocktail: DomainCocktail,
     onClick: () -> Unit
 ) {
+    val drinkName = cocktail.strDrink
+    val categoryString = cocktail.strCategory?.strCategory
+    val imageUrl = cocktail.strSmallUrl
+
     Card {
         ListItem(
             modifier = Modifier
                 .clickable(onClick = onClick),
             icon = {
                 NetworkImage(
-                    url = cocktail.strSmallUrl
+                    url = imageUrl
                 )
             },
-            text = { Text(cocktail.strDrink) },
-            secondaryText = cocktail.strCategory?.strCategory?.let { category ->
+            text = { Text(drinkName) },
+            secondaryText = categoryString?.let { category ->
                 {
                     Text(
                         text = category,

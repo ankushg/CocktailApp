@@ -25,7 +25,7 @@ import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.android.ui.utils.NetworkImage
 import com.ankushg.cocktailapp.android.ui.utils.statusBarsPadding
 import com.ankushg.cocktailapp.shared.app.ViewState
-import com.ankushg.cocktailapp.shared.data.placeholders.cocktailSummaries
+import com.ankushg.cocktailapp.shared.data.placeholders.cocktails
 import com.ankushg.cocktailapp.shared.data.placeholders.vodka
 import com.ankushg.cocktailapp.shared.domain.entities.DomainIngredient
 import com.ankushg.cocktailapp.shared.domain.entities.strImageUrl
@@ -171,7 +171,7 @@ private fun IngredientDescriptionText(description: String?) {
 private fun IngredientDetailPreview() {
     val state = ViewState.IngredientDetails(
         ingredient = vodka,
-        usedInCocktails = cocktailSummaries
+        usedInCocktails = cocktails
     )
 
     CocktailAppTheme {

@@ -1,6 +1,6 @@
-import com.ankushg.cocktailapp.shared.data.enums.AlcoholStatus;
-import com.ankushg.cocktailapp.shared.data.enums.DrinkCategory;
-import com.ankushg.cocktailapp.shared.data.enums.Glass;
+import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus;
+import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory;
+import com.ankushg.cocktailapp.shared.domain.enums.Glass;
 
 CREATE TABLE cocktail(
    idDrink                     INTEGER PRIMARY KEY NOT NULL,
@@ -70,8 +70,8 @@ selectByName:
 SELECT * FROM cocktail
 WHERE strDrink = ?;
 
-selectSummaryByCategory:
-SELECT idDrink, strDrink, strDrinkThumb FROM cocktail
+selectByCategory:
+SELECT * FROM cocktail
 WHERE strCategory = :category;
 
 insertFullCocktail:

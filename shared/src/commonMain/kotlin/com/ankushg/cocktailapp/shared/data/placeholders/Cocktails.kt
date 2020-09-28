@@ -2,13 +2,14 @@ package com.ankushg.cocktailapp.shared.data.placeholders
 
 import com.ankushg.cocktailapp.shared.domain.entities.CocktailWithRecipe
 import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktail
+import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktailSummary
 import com.ankushg.cocktailapp.shared.domain.entities.recipeIngredients
 import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.domain.enums.Glass
 import com.ankushg.cocktailapp.shared.local.Cocktail
 
-val margaritaSummary = buildCocktail(
+val margaritaSummary = DomainCocktailSummary(
     idDrink = 11007,
     strDrink = "Margarita",
     strDrinkThumb = "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
@@ -188,5 +189,5 @@ internal fun buildCocktail(
 val margaritaRecipe = CocktailWithRecipe(
     margarita, margarita.recipeIngredients
 )
-
+val cocktails = List(10) { margarita }
 val cocktailSummaries = List(10) { margaritaSummary }

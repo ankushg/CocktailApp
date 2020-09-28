@@ -3,7 +3,6 @@ package com.ankushg.cocktailapp.shared.data.repositories
 import co.touchlab.kermit.Kermit
 import co.touchlab.stately.ensureNeverFrozen
 import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktail
-import com.ankushg.cocktailapp.shared.domain.entities.DomainCocktailSummary
 import com.ankushg.cocktailapp.shared.domain.enums.AlcoholStatus
 import com.ankushg.cocktailapp.shared.domain.enums.DrinkCategory
 import com.ankushg.cocktailapp.shared.domain.enums.Glass
@@ -13,7 +12,6 @@ import com.ankushg.cocktailapp.shared.remote.models.CocktailResponse
 import com.ankushg.cocktailapp.shared.remote.models.CocktailSummaryResponse
 import com.ankushg.cocktailapp.shared.remote.models.toDomainCocktail
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class CocktailRepository(
     private val dbHelper: DatabaseHelper,
@@ -48,18 +46,9 @@ class CocktailRepository(
     fun selectCocktailById(id: Long): Flow<DomainCocktail> =
         dbHelper.selectCocktailById(id)
 
-    fun selectCocktailsByCategory(category: DrinkCategory): Flow<List<DomainCocktailSummary>> =
+    fun selectCocktailsByCategory(category: DrinkCategory): Flow<List<DomainCocktail>> =
         dbHelper.selectCocktailSummariesByCategory(category)
-            .map {
-                it.map { (idDrink, strDrink, strDrinkThumb) ->
-                    DomainCocktailSummary(
-                        idDrink = idDrink,
-                        strDrink = strDrink,
-                        strDrinkThumb = strDrinkThumb
-                    )
-                }
-            }
-
+    
     suspend fun updateCocktailsByCategory(category: DrinkCategory) =
         cocktailApi.cocktailsByCategory(category)
             .importToLocalWithCategory(category)

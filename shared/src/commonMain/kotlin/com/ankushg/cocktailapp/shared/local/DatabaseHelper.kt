@@ -91,11 +91,11 @@ class DatabaseHelper(
             }
     }
 
-    fun selectCocktailSummariesByCategory(category: DrinkCategory): Flow<List<SelectSummaryByCategory>> {
+    fun selectCocktailSummariesByCategory(category: DrinkCategory): Flow<List<Cocktail>> {
         log.d { "Querying DB for cocktails by category: $category" }
 
         return dbRef.cocktailQueries
-            .selectSummaryByCategory(category)
+            .selectByCategory(category)
             .asFlow()
             .mapToList()
             .flowOn(backgroundDispatcher)

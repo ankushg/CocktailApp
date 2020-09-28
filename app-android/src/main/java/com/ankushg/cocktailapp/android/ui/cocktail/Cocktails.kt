@@ -6,7 +6,7 @@ import androidx.ui.tooling.preview.Preview
 import com.ankushg.cocktailapp.android.ui.common.CocktailListItem
 import com.ankushg.cocktailapp.android.ui.theme.CocktailAppTheme
 import com.ankushg.cocktailapp.shared.app.ViewState
-import com.ankushg.cocktailapp.shared.data.placeholders.cocktailSummaries
+import com.ankushg.cocktailapp.shared.data.placeholders.cocktails
 
 @Composable
 fun CocktailList(
@@ -26,7 +26,7 @@ fun CocktailList(
 @Preview(showBackground = true)
 @Composable
 private fun SummaryPreview() {
-    val state = ViewState.CocktailList(cocktailSummaries)
+    val state = ViewState.CocktailList(cocktails)
 
     CocktailAppTheme {
         CocktailList(
